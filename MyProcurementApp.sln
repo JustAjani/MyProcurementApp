@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyProcurementApp", "MyProcurementApp\MyProcurementApp.csproj", "{149D8CF2-B11A-41B3-AB3C-BAE72B54AFD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseCodeBase", "DatabaseCodeBase\DatabaseCodeBase.csproj", "{EAE1498B-9A1C-4617-9103-D522E337A74A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperFunctions", "HelperFunctions\HelperFunctions.csproj", "{7B20F4DF-814C-416D-B458-8168897F40B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{149D8CF2-B11A-41B3-AB3C-BAE72B54AFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{149D8CF2-B11A-41B3-AB3C-BAE72B54AFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{149D8CF2-B11A-41B3-AB3C-BAE72B54AFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{149D8CF2-B11A-41B3-AB3C-BAE72B54AFD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE1498B-9A1C-4617-9103-D522E337A74A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE1498B-9A1C-4617-9103-D522E337A74A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE1498B-9A1C-4617-9103-D522E337A74A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE1498B-9A1C-4617-9103-D522E337A74A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B20F4DF-814C-416D-B458-8168897F40B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B20F4DF-814C-416D-B458-8168897F40B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B20F4DF-814C-416D-B458-8168897F40B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B20F4DF-814C-416D-B458-8168897F40B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
