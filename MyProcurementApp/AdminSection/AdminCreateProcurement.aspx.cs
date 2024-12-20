@@ -14,7 +14,6 @@ namespace MyProcurementApp.AdminSection
     public partial class AdminCreateProcurement : System.Web.UI.Page
     {
         IContainer container;
-        ProcurementTypeDataBase procurementTDB;
         protected async void Page_Load(object sender, EventArgs e)
         {
 
@@ -23,7 +22,7 @@ namespace MyProcurementApp.AdminSection
         protected async void OnSubmitProcurement(object sender, EventArgs e)
         {
             container = (IContainer)Application["AutofacContainer"];
-            procurementTDB = container.Resolve<ProcurementTypeDataBase>();
+            var procurementTDB = container.Resolve<ProcurementTypeDataBase>();
             
             string ProcurementT = PType.Text.ValidateString();
             var PTM = new ProcurementTypeModel()

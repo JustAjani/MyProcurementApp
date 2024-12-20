@@ -19,11 +19,9 @@ namespace HelperFunctions.Extension
             return output;
         }
 
-        public static decimal StringToDouble(this string str)
+        public static T ConvertStringTo<T>(this string str) where T : struct, IConvertible
         {
-            decimal output = 0;
-            if (decimal.TryParse(str, out output)) return output;
-            else return output;
+            return (T)Convert.ChangeType(str, typeof(T));
         }
     }
 }

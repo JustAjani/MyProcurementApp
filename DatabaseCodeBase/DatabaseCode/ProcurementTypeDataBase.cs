@@ -56,6 +56,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         {
                             var Procurement = new ProcurementTypeModel()
                             {
+                                ID = (int)Reader["ProcurementTypeId"],
                                 Type = Reader["ProcurementType"].ToString(),
                             };
                             ProcurementList.Add(Procurement);

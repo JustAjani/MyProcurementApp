@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="MyProcurementApp.Default" Async="true" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminCreateName.aspx" Inherits="MyProcurementApp.Default" Async="true" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -68,6 +68,7 @@
             border-color: #2980b9;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -77,6 +78,14 @@
                 <asp:Label ID="lblUserName" runat="server" AssociatedControlID="userName" CssClass="form-label">Enter Name:</asp:Label>
                 <asp:TextBox ID="userName" runat="server" CssClass="form-control" placeholder="Enter Name" />
             </div>
+             <div class="mb-3">
+                 <asp:DropDownList ID="ddlRoles" runat="server" CssClass="form-select" AutoPostBack="true">
+                 </asp:DropDownList>
+             </div>
+            <div>
+                <asp:Label runat="server" Text="Is User Active?" />
+                <asp:CheckBox runat="server" id="isUserActive" OnCheckedChanged="OnCheckUserActive"/>
+            </div>
             <div class="mb-3">
                 <asp:Button ID="submitUser" runat="server" OnClick="OnSubmitUser" Text="Create User" CssClass="btn btn-primary" />
             </div>
@@ -85,7 +94,6 @@
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

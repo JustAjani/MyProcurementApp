@@ -22,6 +22,7 @@ namespace MyProcurementApp
             builder.RegisterInstance(new BaseDatabase(dbConfigString)).As<BaseDatabase>().SingleInstance();
             builder.RegisterInstance(new UserDB(dbConfigString)).As<UserDB>().SingleInstance();
             builder.RegisterInstance(new ProcurementTypeDataBase(dbConfigString)).As<ProcurementTypeDataBase>().SingleInstance();
+            builder.RegisterInstance(new RoleDB(dbConfigString)).As<RoleDB>().SingleInstance();
 
             // Build the container
             var container = builder.Build();
@@ -29,7 +30,7 @@ namespace MyProcurementApp
 
             //Builds Basic Tables
             var db = container.Resolve<BaseDatabase>();
-            await db.MakeDatabaseTables("CreateProcurementTrackingTable");        
+            await db.MakeDatabaseTables("CreateTables");        
             db.TableCreationFail += Db_TableCreationFail;
         }
 

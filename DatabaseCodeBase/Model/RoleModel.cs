@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace DatabaseCodeBase.Model
 {
-    public class UserModel
+    public class RoleModel
     {
-        public int UserId { get; set; }
-        public string Name { get; set; }
         public int RoleID { get; set; }
-        public bool Active { get; set; }
+        public string RoleName { get; set; }
     }
 }

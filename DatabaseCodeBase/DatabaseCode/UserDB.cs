@@ -26,6 +26,8 @@ namespace DatabaseCodeBase.DatabaseCode
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255) { Value = userModel.Name });
+                        cmd.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value = userModel.RoleID });
+                        cmd.Parameters.Add(new SqlParameter("@Active", SqlDbType.Bit) { Value = userModel.Active });
                         int rowsaffected = await cmd.ExecuteNonQueryAsync();
 
                         if (rowsaffected > 0) output = "User Created Successfully";
@@ -82,7 +84,10 @@ namespace DatabaseCodeBase.DatabaseCode
                         {
                             var newUser = new UserModel
                             {
+                                UserId = (int)Reader["UserID"],
                                 Name = Reader["Name"].ToString(),
+                                RoleID = (int)Reader["RoleId"],
+                                Active = (bool)Reader["Active"]
                             };
                             UserList.Add(newUser);
                         }
@@ -93,10 +98,14 @@ namespace DatabaseCodeBase.DatabaseCode
             {
                 OnQueryFail($"Unexpected Error {ex.Message}");
             }
+            catch(Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
             return UserList;
         }
 
-        public async Task<string> UpdateUser(string storedprocedure, int UserID, UserModel userModel)
+        public async Task<string> UpdateUser(string storedprocedure, UserModel userModel)
         {
             string output = string.Empty;
             try
@@ -108,11 +117,11 @@ namespace DatabaseCodeBase.DatabaseCode
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = UserID });
+                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = userModel.UserId });
                         cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255) { Value = userModel.Name });
 
                         int affectedRows = await cmd.ExecuteNonQueryAsync();
-                        if (affectedRows > 0) output = "Update Successful!";
+                        if (affectedRows > 0) output = "Update Successfull!";
                         else output = "Update Failed!";
                     }
                 }
@@ -124,5 +133,32 @@ namespace DatabaseCodeBase.DatabaseCode
             return output;
         }
 
+        public async Task<string> UpdateUserActivity(string storedprocedure, UserModel userModel)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(_ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    using (var cmd = new SqlCommand(storedprocedure, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = userModel.UserId });
+                        cmd.Parameters.Add(new SqlParameter("@Active", SqlDbType.Bit) { Value = userModel.Active });
+
+                        int affectedRows = await cmd.ExecuteNonQueryAsync();
+                        if (affectedRows > 0) output = "Update Successfull!";
+                        else output = "Update Failed!";
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            return output;
+        }
     }
 }

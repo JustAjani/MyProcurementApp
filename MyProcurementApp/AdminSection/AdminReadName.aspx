@@ -65,16 +65,33 @@
             color: white;
         }
 
-        .btn-delete {
-            background-color: #e74c3c;
-            color: white;
+        .name-input {
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
-        .btn-delete:hover {
-            background-color: #c0392b;
-            color: white;
+        .name-input:focus {
+            border-color: var(--primary-color);
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .status-checkbox {
+            width: 1.2em;
+            height: 1.2em;
+            margin-right: 0.5em;
+            vertical-align: middle;
+        }
+
+        .status-label {
+            vertical-align: middle;
+            margin-bottom: 0;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -88,27 +105,40 @@
                     AllowPaging="true"
                     PageSize="10">
                     <Columns>
-                        <asp:BoundField DataField="UserID" HeaderText="User ID" Visible ="false" />
-                        <asp:BoundField DataField="Name" HeaderText="Name" />
+                        <asp:BoundField DataField="UserID" HeaderText="User ID" Visible="false" />
+                        <asp:TemplateField HeaderText="Name">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtName" runat="server" 
+                                    Text='<%# Eval("Name") %>' 
+                                    CssClass="name-input"
+                                    placeholder="Enter name">
+                                </asp:TextBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:TemplateField HeaderText="Actions">
                             <ItemTemplate>
                                 <asp:Button ID="btnEdit" runat="server" 
                                     Text="Edit" 
                                     CssClass="btn btn-sm btn-action btn-edit" 
                                     CommandName="EditUser" 
-                                    CommandArgument='<%# Eval("UserID") %>' />
-                                <asp:Button ID="btnDelete" runat="server" 
-                                    Text="Delete" 
-                                    CssClass="btn btn-sm btn-action btn-delete" 
-                                    CommandName="DeleteUser" 
-                                    CommandArgument='<%# Eval("UserID") %>' />
+                                    CommandArgument='<%# Eval("UserID") %>' 
+                                    OnCommand="OnEditCommand"/>
+                                <div class="form-check d-inline-block">
+                                    <asp:CheckBox ID="chkActive" runat="server" 
+                                        CssClass="status-checkbox"
+                                        Checked='<%# Eval("Active") %>'
+                                        AutoPostBack="true"
+                                        OnCheckedChanged="OnStatusChanged" />
+                                    <asp:HiddenField ID="hdnUserID" runat="server" Value='<%# Eval("UserID") %>' />
+                                    <label class="status-label">Active/Inctive</label>
+                                </div>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
                     <PagerStyle CssClass="pagination justify-content-center" />
                 </asp:GridView>
             </div>
-        </div>
+        </div>  
     </form>
 
     <!-- Bootstrap JS and Popper.js -->

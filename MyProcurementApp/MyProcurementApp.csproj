@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminSection\AdminCreateProcurement.aspx" />
+    <Content Include="AdminSection\AdminCreateRole.aspx" />
     <Content Include="AdminSection\AdminReadName.aspx" />
     <Content Include="AdminSection\AdminCreateName.aspx" />
     <Content Include="UserSection\DisplayName.aspx" />
@@ -85,6 +86,13 @@
     </Compile>
     <Compile Include="AdminSection\AdminCreateProcurement.aspx.designer.cs">
       <DependentUpon>AdminCreateProcurement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminSection\AdminCreateRole.aspx.cs">
+      <DependentUpon>AdminCreateRole.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminSection\AdminCreateRole.aspx.designer.cs">
+      <DependentUpon>AdminCreateRole.aspx</DependentUpon>
     </Compile>
     <Compile Include="AdminSection\AdminReadName.aspx.cs">
       <DependentUpon>AdminReadName.aspx</DependentUpon>
