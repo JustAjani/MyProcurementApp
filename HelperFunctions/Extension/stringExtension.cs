@@ -23,5 +23,17 @@ namespace HelperFunctions.Extension
         {
             return (T)Convert.ChangeType(str, typeof(T));
         }
+
+        public static void AlertSuccessORFail(this string str, Page page)
+        {
+            if (str.Contains("Successfull") || str.Contains("SuccessFully") || str.Contains("SuccesFul!"))
+            {
+                ScriptManager.RegisterStartupScript(page, page.GetType(), "showalert", $"Swal.fire('Success', '{str}', 'success');", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(page, page.GetType(), "showalert", $"Swal.fire('Error', '{str}', 'error');", true);
+            }
+        }
     }
 }

@@ -31,15 +31,8 @@ namespace MyProcurementApp.AdminSection
                 RoleName = userRole
             };
 
-            string isRoleCreated = await roleDB.CreateRoles("insertRole", RoleToDb); 
-            if (isRoleCreated.Contains("Successfully"))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Success', '{isRoleCreated}', 'success');", true);
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Error', '{isRoleCreated}', 'error');", true);
-            }
+            string isRoleCreated = await roleDB.CreateRoles("insertRole", RoleToDb);
+            isRoleCreated.AlertSuccessORFail(this);
         }
     }
 }

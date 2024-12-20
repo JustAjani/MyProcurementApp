@@ -10,13 +10,15 @@ using Autofac;
 using DatabaseCodeBase.DatabaseCode;
 using System.Threading.Tasks;
 using HelperFunctions.Extension;
+using DatabaseCodeBase.ServiceInterface;
 
 namespace MyProcurementApp
 {
     public partial class DisplayName : System.Web.UI.Page
     {
-        protected List<UserModel> users = null;
+        protected List<UserModel> users;
         private Autofac.IContainer container;
+        private UserDB userDB;
         protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -29,7 +31,7 @@ namespace MyProcurementApp
         private async Task AddUsersToList()
         {
             container = (Autofac.IContainer)Application["AutofacContainer"];
-            var userDB = container.Resolve<UserDB>();
+            userDB = container.Resolve<UserDB>();
             //Stores the users in list
             users = await userDB.ReadUser("selectActiveUsers");
 
@@ -38,7 +40,7 @@ namespace MyProcurementApp
         private void BindUsersToDropDown()
         {
             //Uses users List as Data Source then Binds data to the drop down
-            ddlUsers.DataSource = users; 
+            ddlUsers.DataSource = users;
             ddlUsers.DataTextField = "Name";
             ddlUsers.DataBind();
             ddlUsers.Items.Insert(0, new ListItem("[Select User]"));

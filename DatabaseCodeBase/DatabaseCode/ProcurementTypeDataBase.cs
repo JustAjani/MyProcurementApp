@@ -37,6 +37,40 @@ namespace DatabaseCodeBase.DatabaseCode
             {
                 OnQueryFail($"Unexpected Error {ex.Message}");
             } 
+            catch(Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
+            return output;
+        }
+
+        public async Task<string> EditProcurementType(string storedProcedure, ProcurementTypeModel procurmentTypeModel)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(storedProcedure, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@ProcurementTypeId", SqlDbType.Int) { Value = procurmentTypeModel.ID });
+                        cmd.Parameters.Add(new SqlParameter("@Type", SqlDbType.NVarChar, 255) { Value = procurmentTypeModel.Type });
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        if (rowsAffected > 0) output = "Procurement Updated SuccessFully";
+                        else output = "Failed To Update Procurement";
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
             return output;
         }
 
@@ -57,7 +91,7 @@ namespace DatabaseCodeBase.DatabaseCode
                             var Procurement = new ProcurementTypeModel()
                             {
                                 ID = (int)Reader["ProcurementTypeId"],
-                                Type = Reader["ProcurementType"].ToString(),
+                                Type = Reader["Type"].ToString(),
                             };
                             ProcurementList.Add(Procurement);
                         }
@@ -67,6 +101,10 @@ namespace DatabaseCodeBase.DatabaseCode
             catch(SqlException ex)
             {
                 OnQueryFail($"Unexpected Error{ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
             }
             return ProcurementList;
         }

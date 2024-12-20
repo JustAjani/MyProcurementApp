@@ -35,6 +35,10 @@ namespace DatabaseCodeBase.DatabaseCode
             {
                 OnQueryFail($"Unexpected Error {ex.Message}");
             }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
             return output;
         }
 
@@ -63,6 +67,10 @@ namespace DatabaseCodeBase.DatabaseCode
                 }
             }
             catch (SqlException ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
+            catch (Exception ex)
             {
                 OnQueryFail($"Unexpected Error {ex.Message}");
             }

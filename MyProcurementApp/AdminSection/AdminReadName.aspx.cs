@@ -17,16 +17,12 @@ namespace MyProcurementApp.AdminSection
     {
         private IContainer container;
         private UserDB userDB;
-        private RoleDB roleDB;
-        protected List<RoleModel> roleList;
-        protected List<UserModel> usersList;
-
+        private List<UserModel> users;
         protected async Task Page_Load(object sender, EventArgs e)
         {
-            ResolveDependecies();
+            await ResolveDependecies();
             if (!IsPostBack)
             {   
-                await AddUsersToList();
                 BindUsers();
             }
         }
@@ -36,22 +32,16 @@ namespace MyProcurementApp.AdminSection
             await Page_Load(this, e);
         }
 
-        private void ResolveDependecies()
+        private async Task ResolveDependecies()
         {
             container = (IContainer)Application["AutofacContainer"];
             userDB = container.Resolve<UserDB>();
-            roleDB = container.Resolve<RoleDB>();
-        }
-
-        private async Task AddUsersToList()
-        {
-            usersList = await userDB.ReadUser("selectAllUsers"); //Stores the users in list
-            roleList = await roleDB.ReadRoles("selectRoles");
+            users = await userDB.ReadUser("selectAllUsers");
         }
 
         private void BindUsers()
         {
-            gvUsers.DataSource = usersList;
+            gvUsers.DataSource = users;
             gvUsers.DataBind();
         }
 
@@ -72,14 +62,7 @@ namespace MyProcurementApp.AdminSection
                 };
 
                 string isUpdated = await userDB.UpdateUser("updateUserName", updatedUser);
-                if (isUpdated.Contains("Successfull!"))
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Success', '{isUpdated}', 'success');", true);
-                }
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Error', '{isUpdated}', 'error');", true);
-                }
+                isUpdated.AlertSuccessORFail(this);
             }
         }
 
@@ -98,16 +81,7 @@ namespace MyProcurementApp.AdminSection
             };
 
             string isUpdated = await userDB.UpdateUserActivity("updateUserActiveStatus", updatedActivity);
-            if (isUpdated.Contains("Successfull!"))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Success', '{isUpdated}', 'success');", true);
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Error', '{isUpdated}', 'error');", true);
-            }
-
-
+            isUpdated.AlertSuccessORFail(this);
         }
 
         protected void OnRoleChanged(object sender, EventArgs e)

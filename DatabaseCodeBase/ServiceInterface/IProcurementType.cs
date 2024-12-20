@@ -10,5 +10,6 @@ namespace DatabaseCodeBase.ServiceInterface
     {
         Task<string> CreateProcurement(string storedProcedure, T procurmentTypeModel);
         Task<List<T>> ReadProcurementType(string stroredProcdure);
+        Task<string> EditProcurementType(string storedProcedure, T procurmentTypeModel);    
     }
 }

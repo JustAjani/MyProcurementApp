@@ -32,14 +32,7 @@ namespace MyProcurementApp.AdminSection
 
             string isCreated = await procurementTDB.CreateProcurement("insertProcurementType", PTM);
 
-            if (isCreated.Contains("Successfully"))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Success', '{isCreated}', 'success');", true);
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Error', '{isCreated}', 'error');", true);
-            }
+            isCreated.AlertSuccessORFail(this);
         }
     }
 }

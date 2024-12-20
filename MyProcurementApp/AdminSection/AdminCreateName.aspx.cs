@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -15,7 +16,8 @@ namespace MyProcurementApp
     public partial class Default : Page
     {
         private IContainer container;
-        private List<RoleModel> roleList;
+        private List<RoleModel> rolesList;
+        private RoleDB roleDB;
         private int roleId;
         private bool isActive;
         protected async void Page_Load(object sender, EventArgs e)
@@ -29,24 +31,22 @@ namespace MyProcurementApp
         private async Task AddRoles()
         {
             container = (IContainer)Application["AutofacContainer"];
-            var rolesdb = container.Resolve<RoleDB>();
-            roleList = await rolesdb.ReadRoles("selectRoles");
+            roleDB = container.Resolve<RoleDB>();
+            rolesList = await roleDB.ReadRoles("selectRoles");
         }
         
         private void BindDropDownData()
         {
-            ddlRoles.DataSource = roleList;
+            ddlRoles.DataSource = rolesList;
             ddlRoles.DataTextField = "RoleName";
             ddlRoles.DataValueField = "RoleID";
             ddlRoles.DataBind();
             ddlRoles.Items.Insert(0, new ListItem("[Enter A Role]"));
         }
 
-        protected async void OnCheckUserActive(object sender, EventArgs e)
+        protected void OnCheckUserActive(object sender, EventArgs e)
         {
-
             isActive = isUserActive.Checked;
-            
         }
 
         protected async void OnSubmitUser(object sender, EventArgs e)
@@ -69,15 +69,7 @@ namespace MyProcurementApp
 
             //Data Should be transferred to Database
             string isCreated = await userdb.CreateUser("insertUser", user);
-            if (isCreated.Contains("Successfully"))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Success', '{isCreated}', 'success');", true);
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"Swal.fire('Error', '{isCreated}', 'error');", true);
-            }
-           
+            isCreated.AlertSuccessORFail(this);
         }
         
     }

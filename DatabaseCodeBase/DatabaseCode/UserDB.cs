@@ -39,6 +39,10 @@ namespace DatabaseCodeBase.DatabaseCode
             {
                 OnQueryFail($"Unexpected Error {ex.Message}");
             }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
             return output;
         }
 
@@ -60,6 +64,10 @@ namespace DatabaseCodeBase.DatabaseCode
                         else output = "Delete Failed!";
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
             }
             catch (Exception ex)
             {
@@ -121,7 +129,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255) { Value = userModel.Name });
 
                         int affectedRows = await cmd.ExecuteNonQueryAsync();
-                        if (affectedRows > 0) output = "Update Successfull!";
+                        if (affectedRows > 0) output = "Update Successfull";
                         else output = "Update Failed!";
                     }
                 }
@@ -129,6 +137,10 @@ namespace DatabaseCodeBase.DatabaseCode
             catch (SqlException ex)
             {
                 OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
             }
             return output;
         }
@@ -149,7 +161,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.Parameters.Add(new SqlParameter("@Active", SqlDbType.Bit) { Value = userModel.Active });
 
                         int affectedRows = await cmd.ExecuteNonQueryAsync();
-                        if (affectedRows > 0) output = "Update Successfull!";
+                        if (affectedRows > 0) output = "Update Successfull";
                         else output = "Update Failed!";
                     }
                 }
@@ -157,6 +169,10 @@ namespace DatabaseCodeBase.DatabaseCode
             catch (SqlException ex)
             {
                 OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
             }
             return output;
         }
