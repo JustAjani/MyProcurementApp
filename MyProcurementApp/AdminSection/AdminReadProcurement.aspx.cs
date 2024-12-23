@@ -15,7 +15,7 @@ namespace MyProcurementApp.AdminSection
 {
     public partial class AdminReadProcurement : System.Web.UI.Page
     {
-        private ProcurementTypeDataBase procurementDB;
+        private ProcurementTypeDB procurementDB;
         private IContainer container;
         private List<ProcurementTypeModel> procurementList;
         protected async Task Page_Load(object sender, EventArgs e)
@@ -35,7 +35,7 @@ namespace MyProcurementApp.AdminSection
         private async Task ResolveDependecy()
         {
             container = (IContainer)Application["AutofacContainer"];
-            procurementDB = container.Resolve<ProcurementTypeDataBase>();
+            procurementDB = container.Resolve<ProcurementTypeDB>();
             procurementList = await procurementDB.ReadProcurementType("selectProcurementTypes");
         }
 
@@ -52,7 +52,7 @@ namespace MyProcurementApp.AdminSection
                 int procurementId = Convert.ToInt32(e.CommandArgument);
                 var row = (GridViewRow)button.NamingContainer;
                 var pType = (TextBox)row.FindControl("txtProcurementType");
-                var Type = pType.Text.ValidateString();
+                var Type = pType.Text.ValidateString(this);
 
                 var procurementUpdate = new ProcurementTypeModel()
                 {

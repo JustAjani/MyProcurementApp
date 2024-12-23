@@ -24,7 +24,7 @@ namespace MyProcurementApp.AdminSection
             container = (IContainer)Application["AutofacContainer"];
             var roleDB = container.Resolve<RoleDB>();
 
-            string userRole = Role.Text.ValidateString();
+            string userRole = Role.Text.ValidateString(this);
 
             var RoleToDb = new RoleModel()
             {

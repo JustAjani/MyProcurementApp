@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace DatabaseCodeBase.DatabaseCode
 {
-    public class ProcurementTypeDataBase : BaseDatabase, IProcurementType<ProcurementTypeModel>
+    public class ProcurementTypeDB : BaseDatabase, IProcurementType<ProcurementTypeModel>
     {
-        public ProcurementTypeDataBase(string connectionString) : base(connectionString) { }
+        public ProcurementTypeDB(string connectionString) : base(connectionString) { }
 
         public async Task<string> CreateProcurement(string storedProcedure, ProcurementTypeModel procurmentTypeModel)
         {

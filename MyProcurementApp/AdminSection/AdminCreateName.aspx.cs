@@ -20,12 +20,13 @@ namespace MyProcurementApp
         private RoleDB roleDB;
         private int roleId;
         private bool isActive;
+        private string validatedName;
         protected async void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
             {
                 await AddRoles();
-                BindDropDownData();
+                ddlRoles.BindDropDownData<RoleModel>("RoleName", "RoleID", "[Enter A Role]", rolesList);
             }
         }
         private async Task AddRoles()
@@ -33,15 +34,6 @@ namespace MyProcurementApp
             container = (IContainer)Application["AutofacContainer"];
             roleDB = container.Resolve<RoleDB>();
             rolesList = await roleDB.ReadRoles("selectRoles");
-        }
-        
-        private void BindDropDownData()
-        {
-            ddlRoles.DataSource = rolesList;
-            ddlRoles.DataTextField = "RoleName";
-            ddlRoles.DataValueField = "RoleID";
-            ddlRoles.DataBind();
-            ddlRoles.Items.Insert(0, new ListItem("[Enter A Role]"));
         }
 
         protected void OnCheckUserActive(object sender, EventArgs e)
@@ -56,8 +48,8 @@ namespace MyProcurementApp
             var userdb = container.Resolve<UserDB>();
 
             //Validating string with a string Extenstion Method to see if it's valid or not
-            string validatedName = userName.Text.ValidateString();
-            roleId = ddlRoles.SelectedValue.ValidateString().ConvertStringTo<int>();
+            validatedName = userName.Text.ValidateString(this);
+            roleId = ddlRoles.SelectedValue.ValidateString(this).ConvertStringTo<int>();
 
             // Instantiating our model to hold the data
             var user = new UserModel()

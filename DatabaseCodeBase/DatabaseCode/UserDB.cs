@@ -176,5 +176,37 @@ namespace DatabaseCodeBase.DatabaseCode
             }
             return output;
         }
+
+        public async Task<string> UpdateUserRole(string storedprocedure, UserModel userModel)
+        {
+            string output = string.Empty;
+            try
+            {
+                using (var conn = new SqlConnection(_ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    using (var cmd = new SqlCommand(storedprocedure, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = userModel.UserId });
+                        cmd.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value = userModel.RoleID });
+
+                        int affectedRows = await cmd.ExecuteNonQueryAsync();
+                        if (affectedRows > 0) output = "Update Successfull";
+                        else output = "Update Failed!";
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error {ex.Message}");
+            }
+            return output;
+        }
     }
 }

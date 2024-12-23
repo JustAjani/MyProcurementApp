@@ -17,13 +17,16 @@ namespace MyProcurementApp.AdminSection
     {
         private IContainer container;
         private UserDB userDB;
-        private List<UserModel> users;
+        private RoleDB roleDB;
+        private List<UserModel> userList;
+        private List<RoleModel> roleList;
         protected async Task Page_Load(object sender, EventArgs e)
         {
             await ResolveDependecies();
             if (!IsPostBack)
-            {   
-                BindUsers();
+            {
+                gvUsers.BindGridData<UserModel>(userList);
+                gvUsers.BindDropDownFromGridView<RoleModel>("RoleName", "RoleID", "[Select Role]", roleList); 
             }
         }
 
@@ -35,14 +38,9 @@ namespace MyProcurementApp.AdminSection
         private async Task ResolveDependecies()
         {
             container = (IContainer)Application["AutofacContainer"];
-            userDB = container.Resolve<UserDB>();
-            users = await userDB.ReadUser("selectAllUsers");
-        }
-
-        private void BindUsers()
-        {
-            gvUsers.DataSource = users;
-            gvUsers.DataBind();
+            (userDB, roleDB) = container.InitializeDependency<UserDB, RoleDB>();
+            roleList = await roleDB.ReadRoles("selectRoles");
+            userList = await userDB.ReadUser("selectAllUsers");
         }
 
         protected async void OnEditCommand(object sender, CommandEventArgs e)
@@ -53,7 +51,7 @@ namespace MyProcurementApp.AdminSection
                 var btnEdit = (Button)sender;
                 var row = (GridViewRow)btnEdit.NamingContainer;
                 var txtName = (TextBox)row.FindControl("txtName");
-                string name = txtName.Text.ValidateString();
+                string name = txtName.Text.ValidateString(this);
 
                 var updatedUser = new UserModel()
                 {
@@ -71,7 +69,7 @@ namespace MyProcurementApp.AdminSection
             var checkbox = (CheckBox)sender;
             var row = (GridViewRow)checkbox.NamingContainer;
             var hiddenID = (HiddenField)row.FindControl("hdnUserID");
-            int UserID = hiddenID.Value.ConvertStringTo<int>();
+            int UserID = hiddenID.Value.ValidateString(this).ConvertStringTo<int>();
             bool isActive = checkbox.Checked;
 
             var updatedActivity = new UserModel()
@@ -84,9 +82,22 @@ namespace MyProcurementApp.AdminSection
             isUpdated.AlertSuccessORFail(this);
         }
 
-        protected void OnRoleChanged(object sender, EventArgs e)
+        protected async void OnRoleChanged(object sender, EventArgs e)
         {
+            var dropdown = (DropDownList)sender;
+            var row = (GridViewRow)dropdown.NamingContainer;
+            var hiddenID = (HiddenField)row.FindControl("hdnId4Role");
+            int UserID = hiddenID.Value.ValidateString(this).ConvertStringTo<int>();
+            int RoleID = dropdown.SelectedValue.ValidateString(this).ConvertStringTo<int>();
 
+            var updateUserRole = new UserModel()
+            {
+                UserId = UserID,
+                RoleID = RoleID,
+            };
+
+            string isUpdated = await userDB.UpdateUserRole("updateUserRole", updateUserRole);
+            isUpdated.AlertSuccessORFail(this);
         }
     }
 }

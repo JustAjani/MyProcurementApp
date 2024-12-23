@@ -65,7 +65,7 @@
             color: white;
         }
 
-        .name-input {
+        .name-input, .role-select {
             width: 100%;
             padding: 0.375rem 0.75rem;
             border: 1px solid #ced4da;
@@ -73,7 +73,7 @@
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
-        .name-input:focus {
+        .name-input:focus, .role-select:focus {
             border-color: var(--primary-color);
             outline: 0;
             box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
@@ -90,6 +90,14 @@
             vertical-align: middle;
             margin-bottom: 0;
         }
+
+        .role-section {
+            margin-bottom: 20px;
+        }
+        .role-select {
+            width: 200px;
+        }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -117,20 +125,32 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Actions">
                             <ItemTemplate>
-                                <asp:Button ID="btnEdit" runat="server" 
-                                    Text="Edit" 
-                                    CssClass="btn btn-sm btn-action btn-edit" 
-                                    CommandName="EditUser" 
-                                    CommandArgument='<%# Eval("UserID") %>' 
-                                    OnCommand="OnEditCommand"/>
-                                <div class="form-check d-inline-block">
-                                    <asp:CheckBox ID="chkActive" runat="server" 
-                                        CssClass="status-checkbox"
-                                        Checked='<%# Eval("Active") %>'
+                                <div class="d-flex align-items-center gap-2">
+                                    <asp:Button ID="btnEdit" runat="server" 
+                                        Text="Edit Name" 
+                                        CssClass="btn btn-sm btn-action btn-edit" 
+                                        CommandName="EditUser" 
+                                        CommandArgument='<%# Eval("UserID") %>' 
+                                        OnCommand="OnEditCommand"/>
+                                    
+
+                                    <asp:DropDownList ID="ddlRole" runat="server" 
+                                        CssClass="form-select form-select-sm role-select"
                                         AutoPostBack="true"
-                                        OnCheckedChanged="OnStatusChanged" />
-                                    <asp:HiddenField ID="hdnUserID" runat="server" Value='<%# Eval("UserID") %>' />
-                                    <label class="status-label">Active/Inctive</label>
+                                        OnSelectedIndexChanged="OnRoleChanged">
+                                    </asp:DropDownList>
+                                    <asp:HiddenField ID="hdnId4Role" runat="server" Value='<%# Eval("UserID") %>'/>
+
+                                    
+                                    <div class="form-check">
+                                        <asp:CheckBox ID="chkActive" runat="server" 
+                                            CssClass="status-checkbox"
+                                            Checked='<%# Eval("Active") %>'
+                                            AutoPostBack="true"
+                                            OnCheckedChanged="OnStatusChanged" />
+                                        <asp:HiddenField ID="hdnUserID" runat="server" Value='<%# Eval("UserID") %>' />
+                                        <label class="status-label">Active?</label>
+                                    </div>
                                 </div>
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -140,9 +160,5 @@
             </div>
         </div>  
     </form>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

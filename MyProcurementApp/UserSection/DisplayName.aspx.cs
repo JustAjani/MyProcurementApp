@@ -24,7 +24,7 @@ namespace MyProcurementApp
             if (!IsPostBack)
             {
                 await AddUsersToList();
-                BindUsersToDropDown();
+                ddlUsers.BindDropDownData<UserModel>("Name", string.Empty, "[Select User]", users);
             }
         }
 
@@ -35,15 +35,6 @@ namespace MyProcurementApp
             //Stores the users in list
             users = await userDB.ReadUser("selectActiveUsers");
 
-        }
-
-        private void BindUsersToDropDown()
-        {
-            //Uses users List as Data Source then Binds data to the drop down
-            ddlUsers.DataSource = users;
-            ddlUsers.DataTextField = "Name";
-            ddlUsers.DataBind();
-            ddlUsers.Items.Insert(0, new ListItem("[Select User]"));
         }
 
         protected void ddlUsers_SelectedIndexChanged(object sender, EventArgs e) 

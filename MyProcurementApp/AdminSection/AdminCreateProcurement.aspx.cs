@@ -22,9 +22,9 @@ namespace MyProcurementApp.AdminSection
         protected async void OnSubmitProcurement(object sender, EventArgs e)
         {
             container = (IContainer)Application["AutofacContainer"];
-            var procurementTDB = container.Resolve<ProcurementTypeDataBase>();
+            var procurementTDB = container.Resolve<ProcurementTypeDB>();
             
-            string ProcurementT = PType.Text.ValidateString();
+            string ProcurementT = PType.Text.ValidateString(this);
             var PTM = new ProcurementTypeModel()
             {
                 Type = ProcurementT

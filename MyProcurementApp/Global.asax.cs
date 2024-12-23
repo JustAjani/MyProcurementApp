@@ -21,8 +21,9 @@ namespace MyProcurementApp
             // Register database as Service and single instance so it can be used for the entire life cycle
             builder.RegisterInstance(new BaseDatabase(dbConfigString)).As<BaseDatabase>().SingleInstance();
             builder.RegisterInstance(new UserDB(dbConfigString)).As<UserDB>().SingleInstance();
-            builder.RegisterInstance(new ProcurementTypeDataBase(dbConfigString)).As<ProcurementTypeDataBase>().SingleInstance();
+            builder.RegisterInstance(new ProcurementTypeDB(dbConfigString)).As<ProcurementTypeDB>().SingleInstance();
             builder.RegisterInstance(new RoleDB(dbConfigString)).As<RoleDB>().SingleInstance();
+            builder.RegisterInstance(new ProcurementDB(dbConfigString)).As<ProcurementDB>().SingleInstance();
 
             // Build the container
             var container = builder.Build();
