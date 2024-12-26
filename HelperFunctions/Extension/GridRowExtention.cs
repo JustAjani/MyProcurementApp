@@ -9,17 +9,17 @@ namespace HelperFunctions.Extension
 {
     public static class GridRowExtention
     {
-        public static void BindGridData<T>(this GridView gridView, List<T> bindSourse)
+        public static void BindGridData<T>(this GridView gridView, List<T> bindSourse) where T : class
         {
             gridView.DataSource = bindSourse;
             gridView.DataBind();
         }
 
-        public static void BindDropDownFromGridView<T>(this GridView gridView, string dataText, string dataValue, string message ,List<T> dataSource)
+        public static void BindDropDownFromGridView<T>(this GridView gridView, string dropdownName, string dataText, string dataValue, string message ,List<T> dataSource) where T : class 
         {
             foreach(GridViewRow row in  gridView.Rows)
             {
-                DropDownList ddl = (DropDownList)row.FindControl("ddlRole");
+                DropDownList ddl = (DropDownList)row.FindControl(dropdownName);
                 ddl.BindDropDownData<T>(dataText, dataValue, message, dataSource);
             }
         }

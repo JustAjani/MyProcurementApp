@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyProcurementApp", "MyProcu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseCodeBase", "DatabaseCodeBase\DatabaseCodeBase.csproj", "{EAE1498B-9A1C-4617-9103-D522E337A74A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperFunctions", "HelperFunctions\HelperFunctions.csproj", "{7B20F4DF-814C-416D-B458-8168897F40B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperFunction", "HelperFunctions\HelperFunction.csproj", "{7B20F4DF-814C-416D-B458-8168897F40B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

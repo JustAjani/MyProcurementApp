@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DatabaseCodeBase.DatabaseCode;
+using DatabaseCodeBase.DBPageUtil;
 using DatabaseCodeBase.Model;
 using HelperFunctions.Extension;
 using System;
@@ -13,27 +14,23 @@ using System.Web.UI.WebControls;
 
 namespace MyProcurementApp
 {
-    public partial class Default : Page
+    public partial class Default : PageUtil
     {
-        private IContainer container;
-        private List<RoleModel> rolesList;
-        private RoleDB roleDB;
-        private int roleId;
         private bool isActive;
-        private string validatedName;
         protected async void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
             {
-                await AddRoles();
-                ddlRoles.BindDropDownData<RoleModel>("RoleName", "RoleID", "[Enter A Role]", rolesList);
+                await InitializeDependecy();
+                ddlRoles.BindDropDownData<RoleModel>("RoleName", "RoleID", "[Enter A Role]", roleList);
             }
         }
-        private async Task AddRoles()
+
+        protected override async Task InitializeDependecy()
         {
             container = (IContainer)Application["AutofacContainer"];
             roleDB = container.Resolve<RoleDB>();
-            rolesList = await roleDB.ReadRoles("selectRoles");
+            roleList = await roleDB.ReadRoles("selectRoles");
         }
 
         protected void OnCheckUserActive(object sender, EventArgs e)
@@ -47,9 +44,9 @@ namespace MyProcurementApp
             container = (IContainer)Application["AutofacContainer"];
             var userdb = container.Resolve<UserDB>();
 
-            //Validating string with a string Extenstion Method to see if it's valid or not
-            validatedName = userName.Text.ValidateString(this);
-            roleId = ddlRoles.SelectedValue.ValidateString(this).ConvertStringTo<int>();
+            //Validating string with a string Extenstion Method to see if it's valid or not then convert to any number data type
+            var validatedName = userName.Text.ValidateString(this);
+            var roleId = ddlRoles.SelectedValue.ValidateString(this).ConvertStringTo<int>();
 
             // Instantiating our model to hold the data
             var user = new UserModel()

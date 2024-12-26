@@ -25,7 +25,7 @@ namespace DatabaseCodeBase.DatabaseCode
                     using (SqlCommand cmd = new SqlCommand(storedProcedure, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@ProcurementTrackingId", SqlDbType.Int) { Value = procurement.ProcurementTrackingId });
+                        cmd.Parameters.Add(new SqlParameter("@ProcurementOfficer", SqlDbType.Int) { Value = procurement.ProcurementOfficer });
                         cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = procurement.UserId });
                         cmd.Parameters.Add(new SqlParameter("@CostCentre", SqlDbType.NVarChar, 255) { Value = procurement.CostCentre });
                         cmd.Parameters.Add(new SqlParameter("@DateOfRequest", SqlDbType.Date) { Value = procurement.DateOfRequest });
@@ -99,7 +99,7 @@ namespace DatabaseCodeBase.DatabaseCode
                             var procurement = new ProcurementModel()
                             {
                                 ProcurementTrackingId = (int)reader["ProcurementTrackingId"],
-                                ProcurementOfficer = (string)reader["Procurement Officer"],
+                                ProcurementOfficer = (int)reader["Procurement Officer"],
                                 UserId = (int)reader["UserId"],
                                 CostCentre = (string)reader["Cost Centre"],
                                 DateOfRequest = (DateTime)reader["Date of Request"],

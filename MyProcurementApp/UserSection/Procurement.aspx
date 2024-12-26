@@ -76,7 +76,7 @@
                     <div class="quick-action-card">
                         <div class="quick-action-icon">📋</div>
                         <h4>Create Request</h4>
-                        <p>Start a new procurement request</p>
+                        <a href="CreateProcurement.aspx">Start a new procurement request</a>
                     </div>
                     <div class="quick-action-card">
                         <div class="quick-action-icon">📊</div>

@@ -49,6 +49,7 @@
     <Compile Include="Extension\DependecyExtention.cs" />
     <Compile Include="Extension\dropdownExtention.cs" />
     <Compile Include="Extension\GridRowExtention.cs" />
+    <Compile Include="Extension\ObjectExtention.cs" />
     <Compile Include="Extension\stringExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

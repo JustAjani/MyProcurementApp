@@ -9,7 +9,7 @@ namespace HelperFunctions.Extension
 {
     public static class dropdownExtention
     {
-        public static void BindDropDownData<T>(this DropDownList dropDown, string TextField, string ValueFeild, string messagae, List<T> dataSource)
+        public static void BindDropDownData<T>(this DropDownList dropDown, string TextField, string ValueFeild, string messagae, List<T> dataSource) where T : class
         {
             dropDown.DataSource = dataSource;
             dropDown.DataTextField = TextField;

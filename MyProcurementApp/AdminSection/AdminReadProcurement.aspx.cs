@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DatabaseCodeBase.DatabaseCode;
+using DatabaseCodeBase.DBPageUtil;
 using DatabaseCodeBase.Model;
 using HelperFunctions.Extension;
 using System;
@@ -13,17 +14,14 @@ using System.Web.UI.WebControls;
 
 namespace MyProcurementApp.AdminSection
 {
-    public partial class AdminReadProcurement : System.Web.UI.Page
+    public partial class AdminReadProcurement : PageUtil
     {
-        private ProcurementTypeDB procurementDB;
-        private IContainer container;
-        private List<ProcurementTypeModel> procurementList;
         protected async Task Page_Load(object sender, EventArgs e)
         {
-            await ResolveDependecy();
+            await InitializeDependecy();
             if(!IsPostBack)
             {
-                BindProcurementData();
+                gvProcurements.BindGridData<ProcurementTypeModel>(procurementTypeList);
             }
         }
 
@@ -32,27 +30,20 @@ namespace MyProcurementApp.AdminSection
             await Page_Load(this, e);
         }
 
-        private async Task ResolveDependecy()
+        protected override async Task InitializeDependecy()
         {
             container = (IContainer)Application["AutofacContainer"];
-            procurementDB = container.Resolve<ProcurementTypeDB>();
-            procurementList = await procurementDB.ReadProcurementType("selectProcurementTypes");
+            procurementTypeDB = container.Resolve<ProcurementTypeDB>();
+            procurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
         }
 
-        private void BindProcurementData()
-        {
-            gvProcurements.DataSource = procurementList;
-            gvProcurements.DataBind();
-        }
         protected async void OnEditCommand(object sender, CommandEventArgs e)
         {
             if(e.CommandName == "EditProcurement")
             {
-                var button = (Button)sender;
+                (var textBox, var btn) = sender.FindUIComponent<TextBox,Button>("txtProcurementType");
                 int procurementId = Convert.ToInt32(e.CommandArgument);
-                var row = (GridViewRow)button.NamingContainer;
-                var pType = (TextBox)row.FindControl("txtProcurementType");
-                var Type = pType.Text.ValidateString(this);
+                var Type = textBox.Text.ValidateString(this);
 
                 var procurementUpdate = new ProcurementTypeModel()
                 {
@@ -60,7 +51,7 @@ namespace MyProcurementApp.AdminSection
                     Type = Type,
                 };
 
-                var isPTUpdated = await procurementDB.EditProcurementType("updateProcurementType", procurementUpdate);
+                var isPTUpdated = await procurementTypeDB.EditProcurementType("updateProcurementType", procurementUpdate);
                 isPTUpdated.AlertSuccessORFail(this);
             }
         }

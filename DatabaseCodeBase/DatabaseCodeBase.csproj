@@ -31,9 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +52,9 @@
     <Compile Include="DatabaseCode\ProcurementTypeDB.cs" />
     <Compile Include="DatabaseCode\RoleDB.cs" />
     <Compile Include="DatabaseCode\UserDB.cs" />
+    <Compile Include="DBPageUtil\PageUtil.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Model\ProcurementModel.cs" />
     <Compile Include="Model\ProcurementTypeModel.cs" />
     <Compile Include="Model\RoleModel.cs" />
@@ -59,10 +66,13 @@
     <Compile Include="ServiceInterface\IProcurementType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HelperFunctions\HelperFunctions.csproj">
+    <ProjectReference Include="..\HelperFunctions\HelperFunction.csproj">
       <Project>{7B20F4DF-814C-416D-B458-8168897F40B8}</Project>
-      <Name>HelperFunctions</Name>
+      <Name>HelperFunction</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

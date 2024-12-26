@@ -195,6 +195,15 @@ namespace MyProcurementApp.UserSection
         protected global::System.Web.UI.WebControls.TextBox txtExternalApproval;
 
         /// <summary>
+        /// txtDateApproved control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDateApproved;
+
+        /// <summary>
         /// txtComments control.
         /// </summary>
         /// <remarks>

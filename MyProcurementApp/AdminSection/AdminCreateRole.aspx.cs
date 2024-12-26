@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DatabaseCodeBase.DatabaseCode;
+using DatabaseCodeBase.DBPageUtil;
 using DatabaseCodeBase.Model;
 using HelperFunctions.Extension;
 using System;
@@ -11,9 +12,8 @@ using System.Web.UI.WebControls;
 
 namespace MyProcurementApp.AdminSection
 {
-    public partial class AdminCreateRole : System.Web.UI.Page
+    public partial class AdminCreateRole : PageUtil
     {
-        private IContainer container;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -22,7 +22,7 @@ namespace MyProcurementApp.AdminSection
         protected async void OnRoleSubmit(object sender, EventArgs e)
         {
             container = (IContainer)Application["AutofacContainer"];
-            var roleDB = container.Resolve<RoleDB>();
+            roleDB = container.Resolve<RoleDB>();
 
             string userRole = Role.Text.ValidateString(this);
 

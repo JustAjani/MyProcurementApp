@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DatabaseCodeBase.DatabaseCode;
+using DatabaseCodeBase.DBPageUtil;
 using DatabaseCodeBase.Model;
 using HelperFunctions.Extension;
 using System;
@@ -13,20 +14,15 @@ using System.Xml.Linq;
 
 namespace MyProcurementApp.AdminSection
 {
-    public partial class AdminReadName : System.Web.UI.Page
+    public partial class AdminReadName : PageUtil
     {
-        private IContainer container;
-        private UserDB userDB;
-        private RoleDB roleDB;
-        private List<UserModel> userList;
-        private List<RoleModel> roleList;
         protected async Task Page_Load(object sender, EventArgs e)
         {
-            await ResolveDependecies();
+            await InitializeDependecy();
             if (!IsPostBack)
             {
                 gvUsers.BindGridData<UserModel>(userList);
-                gvUsers.BindDropDownFromGridView<RoleModel>("RoleName", "RoleID", "[Select Role]", roleList); 
+                gvUsers.BindDropDownFromGridView<RoleModel>("ddlRole","RoleName", "RoleID", "[Select Role]", roleList); 
             }
         }
 
@@ -35,23 +31,21 @@ namespace MyProcurementApp.AdminSection
             await Page_Load(this, e);
         }
 
-        private async Task ResolveDependecies()
+        protected override async Task InitializeDependecy()
         {
             container = (IContainer)Application["AutofacContainer"];
             (userDB, roleDB) = container.InitializeDependency<UserDB, RoleDB>();
             roleList = await roleDB.ReadRoles("selectRoles");
             userList = await userDB.ReadUser("selectAllUsers");
         }
-
+       
         protected async void OnEditCommand(object sender, CommandEventArgs e)
         {
             if (e.CommandName == "EditUser")
             {
                 int userId = Convert.ToInt32(e.CommandArgument);
-                var btnEdit = (Button)sender;
-                var row = (GridViewRow)btnEdit.NamingContainer;
-                var txtName = (TextBox)row.FindControl("txtName");
-                string name = txtName.Text.ValidateString(this);
+                (var textbox, var editbtn) = sender.FindUIComponent<TextBox, Button>("txtName");
+                var name = textbox.Text.ValidateString(this);
 
                 var updatedUser = new UserModel()
                 {
@@ -66,15 +60,13 @@ namespace MyProcurementApp.AdminSection
 
         protected async void OnStatusChanged(object sender, EventArgs e)
         {
-            var checkbox = (CheckBox)sender;
-            var row = (GridViewRow)checkbox.NamingContainer;
-            var hiddenID = (HiddenField)row.FindControl("hdnUserID");
-            int UserID = hiddenID.Value.ValidateString(this).ConvertStringTo<int>();
-            bool isActive = checkbox.Checked;
+            (var hiddenID, var checkBox) = sender.FindUIComponent<HiddenField, CheckBox>("hdnUserID");
+            var userID = hiddenID.Value.ValidateString(this).ConvertStringTo<int>();
+            var isActive = checkBox.Checked;
 
             var updatedActivity = new UserModel()
             {
-                UserId = UserID,
+                UserId = userID,
                 Active = isActive
             };
 
@@ -84,16 +76,15 @@ namespace MyProcurementApp.AdminSection
 
         protected async void OnRoleChanged(object sender, EventArgs e)
         {
-            var dropdown = (DropDownList)sender;
-            var row = (GridViewRow)dropdown.NamingContainer;
-            var hiddenID = (HiddenField)row.FindControl("hdnId4Role");
-            int UserID = hiddenID.Value.ValidateString(this).ConvertStringTo<int>();
-            int RoleID = dropdown.SelectedValue.ValidateString(this).ConvertStringTo<int>();
+         
+            (var hiddenField, var dropDown) = sender.FindUIComponent<HiddenField, DropDownList>("hdnId4Role");
+            var userID = hiddenField.Value.ValidateString(this).ConvertStringTo<int>();
+            int roleID = dropDown.SelectedValue.ValidateString(this).ConvertStringTo<int>();
 
             var updateUserRole = new UserModel()
             {
-                UserId = UserID,
-                RoleID = RoleID,
+                UserId = userID,
+                RoleID = roleID,
             };
 
             string isUpdated = await userDB.UpdateUserRole("updateUserRole", updateUserRole);

@@ -11,38 +11,39 @@ using DatabaseCodeBase.DatabaseCode;
 using System.Threading.Tasks;
 using HelperFunctions.Extension;
 using DatabaseCodeBase.ServiceInterface;
+using DatabaseCodeBase.DBPageUtil;
 
 namespace MyProcurementApp
 {
-    public partial class DisplayName : System.Web.UI.Page
+    public partial class DisplayName : PageUtil
     {
-        protected List<UserModel> users;
+     
         private Autofac.IContainer container;
-        private UserDB userDB;
+        
         protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                await AddUsersToList();
-                ddlUsers.BindDropDownData<UserModel>("Name", string.Empty, "[Select User]", users);
+                await InitializeDependecy();
+                ddlUsers.BindDropDownData<UserModel>("Name", "UserID", "[Select User]", userList);
             }
         }
 
-        private async Task AddUsersToList()
+        protected override async Task InitializeDependecy()
         {
             container = (Autofac.IContainer)Application["AutofacContainer"];
             userDB = container.Resolve<UserDB>();
             //Stores the users in list
-            users = await userDB.ReadUser("selectActiveUsers");
-
+            userList = await userDB.ReadUser("selectActiveUsers");
         }
 
         protected void ddlUsers_SelectedIndexChanged(object sender, EventArgs e) 
         {       
-            var selectedUserName = ddlUsers.SelectedValue;
-            var id = ddlUsers.SelectedIndex;
+            var selectedUserName = ddlUsers.SelectedItem;
+            var id = ddlUsers.SelectedValue;
             //Stores name in a session
-            Session["TransferUser"] = selectedUserName; 
+            Session["TransferUser"] = selectedUserName;
+            Session["TransferID"] = id;
             //Redirects to a new Page where the User will be greated
             Response.Redirect($"Procurement.aspx?userName={selectedUserName}?id={id}"); 
         }

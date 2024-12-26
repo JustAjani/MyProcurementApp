@@ -9,7 +9,7 @@ namespace DatabaseCodeBase.Model
     public class ProcurementModel
     {
         public int ProcurementTrackingId { get; set; }
-        public string ProcurementOfficer { get; set; }
+        public int ProcurementOfficer { get; set; }
         public int UserId { get; set; }
         public string CostCentre { get; set; }
         public DateTime DateOfRequest { get; set; }

@@ -78,6 +78,7 @@
     <Content Include="UserSection\CreateProcurement.aspx" />
     <Content Include="UserSection\DisplayName.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="UserSection\DisplayProcurement.aspx" />
     <Content Include="UserSection\Procurement.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -134,6 +135,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="UserSection\DisplayProcurement.aspx.cs">
+      <DependentUpon>DisplayProcurement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserSection\DisplayProcurement.aspx.designer.cs">
+      <DependentUpon>DisplayProcurement.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UserSection\Procurement.aspx.cs">
       <DependentUpon>Procurement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -166,9 +174,9 @@
       <Project>{eae1498b-9a1c-4617-9103-d522e337a74a}</Project>
       <Name>DatabaseCodeBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HelperFunctions\HelperFunctions.csproj">
+    <ProjectReference Include="..\HelperFunctions\HelperFunction.csproj">
       <Project>{7b20f4df-814c-416d-b458-8168897f40b8}</Project>
-      <Name>HelperFunctions</Name>
+      <Name>HelperFunction</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

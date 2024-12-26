@@ -61,6 +61,7 @@
             margin-left: 4px;
         }
     </style>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -72,13 +73,12 @@
                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
-                <!-- Section 1: Basic Information -->
+               <!-- Section 1: Basic Information -->
                 <div class="form-section active" id="section1">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label required">Procurement Officer</label>
-                            <asp:DropDownList ID="ddlOfficer" runat="server" CssClass="form-select" 
-                                    AutoPostBack="true">
+                            <asp:DropDownList ID="ddlOfficer" runat="server" CssClass="form-select" AutoPostBack="true">
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-6">
@@ -170,6 +170,10 @@
                         <div class="col-md-6">
                             <label class="form-label">External Approval</label>
                             <asp:TextBox ID="txtExternalApproval" runat="server" CssClass="form-control" />
+                        </div> 
+                        <div class="col-md-6">
+                            <label class="form-label">Contract Date Approval</label>
+                            <asp:TextBox ID="txtDateApproved" runat="server" CssClass="form-control" TextMode="Date"/>
                         </div>
                         <div class="col-12">
                             <label class="form-label">Comments</label>

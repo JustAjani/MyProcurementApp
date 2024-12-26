@@ -1,36 +1,37 @@
 ﻿using Autofac;
 using DatabaseCodeBase.DatabaseCode;
+using DatabaseCodeBase.DBPageUtil;
 using DatabaseCodeBase.Model;
 using HelperFunctions.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace MyProcurementApp.AdminSection
 {
-    public partial class AdminCreateProcurement : System.Web.UI.Page
+    public partial class AdminCreateProcurement : PageUtil
     {
-        IContainer container;
         protected async void Page_Load(object sender, EventArgs e)
         {
-
+           
         }
 
         protected async void OnSubmitProcurement(object sender, EventArgs e)
         {
             container = (IContainer)Application["AutofacContainer"];
-            var procurementTDB = container.Resolve<ProcurementTypeDB>();
-            
-            string ProcurementT = PType.Text.ValidateString(this);
+            procurementTypeDB = container.Resolve<ProcurementTypeDB>();
+
+            string ProcurementType = PType.Text.ValidateString(this);
             var PTM = new ProcurementTypeModel()
             {
-                Type = ProcurementT
+                Type = ProcurementType
             };
 
-            string isCreated = await procurementTDB.CreateProcurement("insertProcurementType", PTM);
+            string isCreated = await procurementTypeDB.CreateProcurement("insertProcurementType", PTM);
 
             isCreated.AlertSuccessORFail(this);
         }
