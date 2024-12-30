@@ -15,7 +15,6 @@ namespace MyProcurementApp.UserSection
 {
     public partial class CreateProcurement : PageUtil
     {
-        IContainer container; 
         int UserID;
         protected async Task Page_Load(object sender, EventArgs e)
         {
@@ -23,8 +22,8 @@ namespace MyProcurementApp.UserSection
             UserID = Session["TransferID"].ToString().ConvertStringTo<int>();
             if (!IsPostBack)
             {
-                ddlOfficer.BindDropDownData<UserModel>("Name", "UserId", "[Select Procurement Type]", userList);
-                ddlProcurementType.BindDropDownData<ProcurementTypeModel>("Type", "ID", "Select procurement Type", procurementTypeList);
+                ddlOfficer.BindDropDownData<UserModel>("Name", "UserId", "[Select Procurement Type]", UserList);
+                ddlProcurementType.BindDropDownData<ProcurementTypeModel>("Type", "ID", "Select procurement Type", ProcurementTypeList);
             }
         }
 
@@ -37,8 +36,8 @@ namespace MyProcurementApp.UserSection
         {
             container = (IContainer)Application["AutofacContainer"];
             (procurementDB, userDB, procurementTypeDB) = container.InitializeDependency<ProcurementDB, UserDB, ProcurementTypeDB>();
-            procurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
-            userList = await userDB.ReadUser("selectUsersByRoleId");
+            ProcurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
+            UserList = await userDB.ReadUser("selectUsersByRoleId");
         }
 
         protected async void OnSubmit(object sender, EventArgs e)

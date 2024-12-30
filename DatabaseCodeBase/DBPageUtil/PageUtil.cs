@@ -12,16 +12,24 @@ namespace DatabaseCodeBase.DBPageUtil
 {
     public abstract class PageUtil : Page
     {
+        // database Container
         protected IContainer container;
         protected UserDB userDB;
         protected ProcurementDB procurementDB;
         protected RoleDB roleDB;
         protected ProcurementTypeDB procurementTypeDB;
+        protected ProcurementModel Aprocurement {  get; set; } = new ProcurementModel();
 
-        protected List<UserModel> userList;
-        protected List<ProcurementTypeModel> procurementTypeList;
-        protected List<RoleModel> roleList;
-        protected List<ProcurementModel> procurementList;
-        protected virtual async Task InitializeDependecy() { }
+        // model list
+        protected List<UserModel> UserList { get; set; } = new List<UserModel>();
+        protected List<ProcurementTypeModel> ProcurementTypeList { get; set; } = new List<ProcurementTypeModel>();
+        protected List<RoleModel> RoleList { get; set; } = new List<RoleModel>();
+        protected List<ProcurementModel> ProcurementList { get; set; } = new List<ProcurementModel>();
+
+        // dependency Initialization function
+        protected virtual async Task InitializeDependecy()
+        {
+            await Task.CompletedTask;
+        }
     }
 }

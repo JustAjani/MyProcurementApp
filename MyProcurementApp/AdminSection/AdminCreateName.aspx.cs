@@ -19,10 +19,10 @@ namespace MyProcurementApp
         private bool isActive;
         protected async void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
-            {
-                await InitializeDependecy();
-                ddlRoles.BindDropDownData<RoleModel>("RoleName", "RoleID", "[Enter A Role]", roleList);
+            await InitializeDependecy();
+            if (!IsPostBack)
+            {   
+                ddlRoles.BindDropDownData<RoleModel>("RoleName", "RoleID", "[Enter A Role]", RoleList);
             }
         }
 
@@ -30,7 +30,8 @@ namespace MyProcurementApp
         {
             container = (IContainer)Application["AutofacContainer"];
             roleDB = container.Resolve<RoleDB>();
-            roleList = await roleDB.ReadRoles("selectRoles");
+            userDB = container.Resolve<UserDB>();
+            RoleList = await roleDB.ReadRoles("selectRoles");
         }
 
         protected void OnCheckUserActive(object sender, EventArgs e)
@@ -40,15 +41,9 @@ namespace MyProcurementApp
 
         protected async void OnSubmitUser(object sender, EventArgs e)
         {
-            //Calling on Container and User Database Service
-            container = (IContainer)Application["AutofacContainer"];
-            var userdb = container.Resolve<UserDB>();
-
-            //Validating string with a string Extenstion Method to see if it's valid or not then convert to any number data type
             var validatedName = userName.Text.ValidateString(this);
             var roleId = ddlRoles.SelectedValue.ValidateString(this).ConvertStringTo<int>();
 
-            // Instantiating our model to hold the data
             var user = new UserModel()
             {
                 Name = validatedName,
@@ -56,8 +51,7 @@ namespace MyProcurementApp
                 Active = isActive
             };
 
-            //Data Should be transferred to Database
-            string isCreated = await userdb.CreateUser("insertUser", user);
+            string isCreated = await userDB.CreateUser("insertUser", user);
             isCreated.AlertSuccessORFail(this);
         }
         

@@ -15,7 +15,7 @@ namespace MyProcurementApp.AdminSection
 {
     public partial class AdminCreateProcurement : PageUtil
     {
-        protected async void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
            
         }

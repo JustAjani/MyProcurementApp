@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseCodeBase", "Databas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperFunction", "HelperFunctions\HelperFunction.csproj", "{7B20F4DF-814C-416D-B458-8168897F40B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputOutputOperation", "InputOutputOperation\InputOutputOperation.csproj", "{7C987FD2-6DC1-40C9-BE70-522B6444F17C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7B20F4DF-814C-416D-B458-8168897F40B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B20F4DF-814C-416D-B458-8168897F40B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B20F4DF-814C-416D-B458-8168897F40B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C987FD2-6DC1-40C9-BE70-522B6444F17C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C987FD2-6DC1-40C9-BE70-522B6444F17C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C987FD2-6DC1-40C9-BE70-522B6444F17C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C987FD2-6DC1-40C9-BE70-522B6444F17C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

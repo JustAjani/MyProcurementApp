@@ -21,8 +21,8 @@ namespace MyProcurementApp.AdminSection
             await InitializeDependecy();
             if (!IsPostBack)
             {
-                gvUsers.BindGridData<UserModel>(userList);
-                gvUsers.BindDropDownFromGridView<RoleModel>("ddlRole","RoleName", "RoleID", "[Select Role]", roleList); 
+                gvUsers.BindGridData<UserModel>(UserList);
+                gvUsers.BindDropDownFromGridView<RoleModel>("ddlRole","RoleName", "RoleID", "[Select Role]", RoleList); 
             }
         }
 
@@ -35,8 +35,8 @@ namespace MyProcurementApp.AdminSection
         {
             container = (IContainer)Application["AutofacContainer"];
             (userDB, roleDB) = container.InitializeDependency<UserDB, RoleDB>();
-            roleList = await roleDB.ReadRoles("selectRoles");
-            userList = await userDB.ReadUser("selectAllUsers");
+            RoleList = await roleDB.ReadRoles("selectRoles");
+            UserList = await userDB.ReadUser("selectAllUsers");
         }
        
         protected async void OnEditCommand(object sender, CommandEventArgs e)

@@ -18,14 +18,13 @@ namespace MyProcurementApp
     public partial class DisplayName : PageUtil
     {
      
-        private Autofac.IContainer container;
         
         protected async void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 await InitializeDependecy();
-                ddlUsers.BindDropDownData<UserModel>("Name", "UserID", "[Select User]", userList);
+                ddlUsers.BindDropDownData<UserModel>("Name", "UserID", "[Select User]", UserList);
             }
         }
 
@@ -34,7 +33,7 @@ namespace MyProcurementApp
             container = (Autofac.IContainer)Application["AutofacContainer"];
             userDB = container.Resolve<UserDB>();
             //Stores the users in list
-            userList = await userDB.ReadUser("selectActiveUsers");
+            UserList = await userDB.ReadUser("selectActiveUsers");
         }
 
         protected void ddlUsers_SelectedIndexChanged(object sender, EventArgs e) 

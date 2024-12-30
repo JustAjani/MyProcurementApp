@@ -46,6 +46,9 @@
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -177,6 +180,10 @@
     <ProjectReference Include="..\HelperFunctions\HelperFunction.csproj">
       <Project>{7b20f4df-814c-416d-b458-8168897f40b8}</Project>
       <Name>HelperFunction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InputOutputOperation\InputOutputOperation.csproj">
+      <Project>{7c987fd2-6dc1-40c9-be70-522b6444f17c}</Project>
+      <Name>InputOutputOperation</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

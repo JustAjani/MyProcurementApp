@@ -7,7 +7,7 @@ using System.Web.UI;
 
 namespace HelperFunctions.Extension
 {
-    public static class stringExtension
+    public static class StringExtension
     {
         public static string ValidateString(this string str, Page page)
         {

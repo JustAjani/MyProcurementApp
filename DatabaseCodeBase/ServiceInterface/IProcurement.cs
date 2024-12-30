@@ -11,6 +11,7 @@ namespace DatabaseCodeBase.ServiceInterface
         Task<string> CreateProcurement(string storedProcedure, T procurement);
         Task<string> UpdateProcurement(string storedProcedure, T procurement);
         Task<List<T>>ReadProcurement(string storedProcedure);
+        Task<T>ReadProcurementByID(string storedProcedure , int iD);
         Task<string> DeleteProcurement(string storedProcedure, T procurement);
     }
 }

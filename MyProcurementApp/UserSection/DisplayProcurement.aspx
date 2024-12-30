@@ -68,7 +68,7 @@
                 AllowPaging="true"
                 PageSize="10">
                 <Columns>
-                    <asp:BoundField DataField="ProcurementTrackingId" HeaderText="ID" />
+                    <asp:BoundField DataField="ProcurementTrackingId" HeaderText="ID" Visible="true" />
                     
                     <asp:TemplateField HeaderText="Officer">
                         <ItemTemplate>
@@ -147,7 +147,6 @@
                         <ItemTemplate>
                             <asp:DropDownList ID="ddlStatus" runat="server" 
                                 CssClass="form-select"
-                                Text='<%# Eval("Status") %>'
                                 AutoPostBack="true"
                                 OnSelectedIndexChanged="OnStatusChanged">
                                 <asp:ListItem Text="Draft" Value="Draft" />
@@ -162,9 +161,10 @@
                     <asp:TemplateField HeaderText="Actions">
                         <ItemTemplate>
                             <asp:Button ID="btnView" runat="server" 
-                                Text="View Details" 
+                                Text="Download Details" 
                                 CssClass="btn btn-sm btn-primary"
-                                CommandName="ViewProcurement" 
+                                OnCommand ="OnViewProcurement"
+                                CommandName="ViewProcurement"
                                 CommandArgument='<%# Eval("ProcurementTrackingId") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>

@@ -21,7 +21,7 @@ namespace MyProcurementApp.AdminSection
             await InitializeDependecy();
             if(!IsPostBack)
             {
-                gvProcurements.BindGridData<ProcurementTypeModel>(procurementTypeList);
+                gvProcurements.BindGridData<ProcurementTypeModel>(ProcurementTypeList);
             }
         }
 
@@ -34,7 +34,7 @@ namespace MyProcurementApp.AdminSection
         {
             container = (IContainer)Application["AutofacContainer"];
             procurementTypeDB = container.Resolve<ProcurementTypeDB>();
-            procurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
+            ProcurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
         }
 
         protected async void OnEditCommand(object sender, CommandEventArgs e)

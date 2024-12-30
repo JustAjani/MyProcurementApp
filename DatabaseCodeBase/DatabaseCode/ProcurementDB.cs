@@ -144,5 +144,64 @@ namespace DatabaseCodeBase.DatabaseCode
             return procurementList;
         }
 
+        public async Task<ProcurementModel> ReadProcurementByID(string storedProcedure, int iD)
+        {
+            var procurement = new ProcurementModel();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(storedProcedure, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@ProcurementTrackingId", SqlDbType.Int) { Value = iD });
+                        var reader = await cmd.ExecuteReaderAsync();
+                        if (reader.Read())
+                        {
+                            procurement.ProcurementTrackingId = (int)reader["ProcurementTrackingId"];
+                            procurement.ProcurementOfficer = (int)reader["Procurement Officer"];
+                            procurement.UserId = (int)reader["UserId"];
+                            procurement.CostCentre = reader["Cost Centre"].ToString();
+                            procurement.DateOfRequest = (DateTime)reader["Date of Request"];
+                            procurement.MediumUsedToSendRequest = reader["Medium used to send request"].ToString();
+                            procurement.Description = reader["Description"].ToString();
+                            procurement.LotProcurement = reader["Lot Procurement"].ToString();
+                            procurement.ComparativeEstimate = (decimal)reader["Comparative Estimate"];
+                            procurement.ProcurementTypeId = (int)reader["ProcurementTypeId"];
+                            procurement.FitAndReadyDate = (DateTime)reader["Fit and Ready Date"];
+                            procurement.PublicationDate = (DateTime)reader["Publication Date"];
+                            procurement.DateTenderClosed = (DateTime)reader["Date Tender Closed"];
+                            procurement.DateEvaluationCompleted = (DateTime)reader["Date Evaluation Completed"];
+                            procurement.DateReportSentToPPM = (DateTime)reader["Date Report sent to PPM"];
+                            procurement.ResubmissionDateToPPM = (DateTime)reader["Resubmission Date to PPM (If Applicable)"];
+                            procurement.DateReportSentToPC = (DateTime)reader["Date report sent to PC"];
+                            procurement.PCApprovalDate = (DateTime)reader["PC Approval Date"];
+                            procurement.DateApprovedByManagingDirector = (DateTime)reader["Date approved by Managing Director"];
+                            procurement.DateReceivedApprovedSubmission = (DateTime)reader["Date Received Approved Submission"];
+                            procurement.DateContractReceivedFromCostCentre = (DateTime)reader["Date Contract received from Cost Centre (if Required)"];
+                            procurement.DateContractSubmittedToLegal = (DateTime)reader["Date Contract Submitted to Legal"];
+                            procurement.DateContractApproved = (DateTime)reader["Date Contract Approved (if Required)"];
+                            procurement.RecommendedSupplier = reader["Recommended Supplier"].ToString();
+                            procurement.ActualContractValue = (decimal)reader["Actual Contract Value"];
+                            procurement.ExternalApproval = reader["External Approval (Yes/No)"].ToString();
+                            procurement.DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"];
+                            procurement.Status = reader["Status"].ToString();
+                            procurement.Comments = reader["Comments"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            return procurement;
+        }
+
     }
 }
