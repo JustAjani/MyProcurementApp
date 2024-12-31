@@ -78,6 +78,7 @@
     <Content Include="AdminSection\AdminReadName.aspx" />
     <Content Include="AdminSection\AdminCreateName.aspx" />
     <Content Include="AdminSection\AdminReadProcurement.aspx" />
+    <Content Include="AdminSection\AdminReadUserProcurement.aspx" />
     <Content Include="UserSection\CreateProcurement.aspx" />
     <Content Include="UserSection\DisplayName.aspx" />
     <Content Include="Global.asax" />
@@ -120,6 +121,13 @@
     </Compile>
     <Compile Include="AdminSection\AdminReadProcurement.aspx.designer.cs">
       <DependentUpon>AdminReadProcurement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminSection\AdminReadUserProcurement.aspx.cs">
+      <DependentUpon>AdminReadUserProcurement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminSection\AdminReadUserProcurement.aspx.designer.cs">
+      <DependentUpon>AdminReadUserProcurement.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserSection\CreateProcurement.aspx.cs">
       <DependentUpon>CreateProcurement.aspx</DependentUpon>

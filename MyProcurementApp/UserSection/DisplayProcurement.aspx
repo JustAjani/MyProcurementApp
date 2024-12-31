@@ -56,6 +56,7 @@
             width: 120px;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -68,15 +69,14 @@
                 AllowPaging="true"
                 PageSize="10">
                 <Columns>
-                    <asp:BoundField DataField="ProcurementTrackingId" HeaderText="ID" Visible="true" />
+                    <asp:BoundField DataField="ProcurementTrackingId" HeaderText="ID" Visible="false" />
                     
                     <asp:TemplateField HeaderText="Officer">
                         <ItemTemplate>
                             <asp:DropDownList ID="ddlOfficer" runat="server" 
                                 CssClass="form-select"
                                 DataValueField="ProcurementOfficer"
-                                AutoPostBack="true"
-                                OnSelectedIndexChanged="OnOfficerChanged">
+                                AutoPostBack="true">
                             </asp:DropDownList>
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -86,15 +86,37 @@
                             <asp:DropDownList ID="ddlType" runat="server" 
                                 CssClass="form-select"
                                 DataValueField="ProcurementTypeId"
-                                AutoPostBack="true"
-                                OnSelectedIndexChanged="OnTypeChanged">
+                                AutoPostBack="true">
                             </asp:DropDownList>
                         </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:BoundField DataField="CostCentre" HeaderText="Cost Centre" />
-                    <asp:BoundField DataField="Description" HeaderText="Description" />
-                    <asp:BoundField DataField="LotProcurement" HeaderText="Lot" />
+                    <asp:TemplateField HeaderText="Cost Centre">
+                        <ItemTemplate>
+                            <asp:TextBox ID="txtCostCentre" runat="server" 
+                                CssClass="form-control"
+                                Text='<%# Eval("CostCentre") %>'>
+                            </asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="Description">
+                        <ItemTemplate>
+                            <asp:TextBox ID="txtDescription" runat="server" 
+                                CssClass="form-control"
+                                Text='<%# Eval("Description") %>'>
+                            </asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="Lot">
+                        <ItemTemplate>
+                            <asp:TextBox ID="txtLot" runat="server" 
+                                CssClass="form-control"
+                                Text='<%# Eval("LotProcurement") %>'>
+                            </asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     
                     <asp:TemplateField HeaderText="Estimate">
                         <ItemTemplate>
@@ -132,7 +154,14 @@
                         </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:BoundField DataField="RecommendedSupplier" HeaderText="Supplier" />
+                    <asp:TemplateField HeaderText="Supplier">
+                        <ItemTemplate>
+                            <asp:TextBox ID="txtSupplier" runat="server" 
+                                CssClass="form-control"
+                                Text='<%# Eval("RecommendedSupplier") %>'>
+                            </asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     
                     <asp:TemplateField HeaderText="Contract Value">
                         <ItemTemplate>
@@ -145,25 +174,25 @@
 
                     <asp:TemplateField HeaderText="Status">
                         <ItemTemplate>
-                            <asp:DropDownList ID="ddlStatus" runat="server" 
-                                CssClass="form-select"
-                                AutoPostBack="true"
-                                OnSelectedIndexChanged="OnStatusChanged">
-                                <asp:ListItem Text="Draft" Value="Draft" />
-                                <asp:ListItem Text="In Progress" Value="InProgress" />
-                                <asp:ListItem Text="Under Review" Value="UnderReview" />
-                                <asp:ListItem Text="Approved" Value="Approved" />
-                                <asp:ListItem Text="Completed" Value="Completed" />
-                            </asp:DropDownList>
+                             <asp:TextBox ID="txtStatus" runat="server" 
+                                CssClass="form-control"
+                                Text='<%# Eval("Status") %>' >
+                            </asp:TextBox>
                         </ItemTemplate>
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="Actions">
                         <ItemTemplate>
+                            <asp:Button ID="btnEdit" runat="server" 
+                                Text="Edit" 
+                                CssClass="btn btn-sm btn-secondary me-2"
+                                OnCommand="OnEditProcurement"
+                                CommandName="EditProcurement"
+                                CommandArgument='<%# Eval("ProcurementTrackingId") %>' />
                             <asp:Button ID="btnView" runat="server" 
                                 Text="Download Details" 
                                 CssClass="btn btn-sm btn-primary"
-                                OnCommand ="OnViewProcurement"
+                                OnCommand="OnViewProcurement"
                                 CommandName="ViewProcurement"
                                 CommandArgument='<%# Eval("ProcurementTrackingId") %>' />
                         </ItemTemplate>

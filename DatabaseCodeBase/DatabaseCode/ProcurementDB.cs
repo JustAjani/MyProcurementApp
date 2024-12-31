@@ -76,9 +76,45 @@ namespace DatabaseCodeBase.DatabaseCode
             throw new NotImplementedException();
         }
 
-        public Task<string> UpdateProcurement(string storedProcedure, ProcurementModel procurement)
+        public async Task<string> UpdateProcurement(string storedProcedure, ProcurementModel procurement)
         {
-            return CreateProcurement(storedProcedure, procurement);
+            string output = string.Empty;
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(_ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    using(SqlCommand cmd = new SqlCommand(storedProcedure,conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@ProcurementTrackingId", SqlDbType.Int) { Value = procurement.ProcurementTrackingId });
+                        cmd.Parameters.Add(new SqlParameter("@ProcurementOfficer", SqlDbType.Int) { Value = procurement.ProcurementOfficer });
+                        cmd.Parameters.Add(new SqlParameter("@ProcurementTypeId", SqlDbType.Int) { Value = procurement.ProcurementTypeId });
+                        cmd.Parameters.Add(new SqlParameter("@CostCentre", SqlDbType.NVarChar, 50) { Value = procurement.CostCentre });
+                        cmd.Parameters.Add(new SqlParameter("@Description", SqlDbType.NVarChar, 500) { Value = procurement.Description });
+                        cmd.Parameters.Add(new SqlParameter("@LotProcurement", SqlDbType.NVarChar, 50) { Value = procurement.LotProcurement });
+                        cmd.Parameters.Add(new SqlParameter("@ComparativeEstimate", SqlDbType.Decimal) { Value = procurement.ComparativeEstimate });
+                        cmd.Parameters.Add(new SqlParameter("@DateOfRequest", SqlDbType.Date) { Value = procurement.DateOfRequest });
+                        cmd.Parameters.Add(new SqlParameter("@PublicationDate", SqlDbType.Date) { Value = procurement.PublicationDate });
+                        cmd.Parameters.Add(new SqlParameter("@ActualContractValue", SqlDbType.Decimal) { Value = procurement.ActualContractValue });
+                        cmd.Parameters.Add(new SqlParameter("@RecommendedSupplier", SqlDbType.NVarChar, 100) { Value = procurement.RecommendedSupplier });
+
+                        await cmd.ExecuteNonQueryAsync();
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        if (rowsAffected > 0) output = "Procurement Update Successfully";
+                        else output = "Update Failed";
+                    }
+                }
+            }
+            catch(SqlException ex)
+            {
+                OnQueryFail($"Error {ex.Message}");
+            }
+            catch(Exception ex)
+            {
+                OnQueryFail($"Error {ex.Message}");
+            }
+            return output;
         }
 
         public async Task<List<ProcurementModel>> ReadProcurement(string storedProcedure)
@@ -144,8 +180,9 @@ namespace DatabaseCodeBase.DatabaseCode
             return procurementList;
         }
 
-        public async Task<ProcurementModel> ReadProcurementByID(string storedProcedure, int iD)
+        public async Task<List<ProcurementModel>> ReadByProcurementID(string storedProcedure, int iD, string selectedfield)
         {
+            var procurmentList = new List<ProcurementModel>();
             var procurement = new ProcurementModel();
             try
             {
@@ -155,7 +192,7 @@ namespace DatabaseCodeBase.DatabaseCode
                     using (SqlCommand cmd = new SqlCommand(storedProcedure, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@ProcurementTrackingId", SqlDbType.Int) { Value = iD });
+                        cmd.Parameters.Add(new SqlParameter(selectedfield, SqlDbType.Int) { Value = iD });
                         var reader = await cmd.ExecuteReaderAsync();
                         if (reader.Read())
                         {
@@ -188,6 +225,8 @@ namespace DatabaseCodeBase.DatabaseCode
                             procurement.DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"];
                             procurement.Status = reader["Status"].ToString();
                             procurement.Comments = reader["Comments"].ToString();
+
+                            procurmentList.Add(procurement);
                         }
                     }
                 }
@@ -200,8 +239,7 @@ namespace DatabaseCodeBase.DatabaseCode
             {
                 OnQueryFail($"Unexpected Error: {ex.Message}");
             }
-            return procurement;
+            return procurmentList;
         }
-
     }
 }

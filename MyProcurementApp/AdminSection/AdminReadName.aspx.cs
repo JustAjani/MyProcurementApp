@@ -44,7 +44,7 @@ namespace MyProcurementApp.AdminSection
             if (e.CommandName == "EditUser")
             {
                 int userId = Convert.ToInt32(e.CommandArgument);
-                (var textbox, var editbtn) = sender.FindUIComponent<TextBox, Button>("txtName");
+                (var textbox, var editbtn) = sender.FindUIComponentAndSender<TextBox, Button>("txtName");
                 var name = textbox.Text.ValidateString(this);
 
                 var updatedUser = new UserModel()
@@ -60,7 +60,7 @@ namespace MyProcurementApp.AdminSection
 
         protected async void OnStatusChanged(object sender, EventArgs e)
         {
-            (var hiddenID, var checkBox) = sender.FindUIComponent<HiddenField, CheckBox>("hdnUserID");
+            (var hiddenID, var checkBox) = sender.FindUIComponentAndSender<HiddenField, CheckBox>("hdnUserID");
             var userID = hiddenID.Value.ValidateString(this).ConvertStringTo<int>();
             var isActive = checkBox.Checked;
 
@@ -77,7 +77,7 @@ namespace MyProcurementApp.AdminSection
         protected async void OnRoleChanged(object sender, EventArgs e)
         {
          
-            (var hiddenField, var dropDown) = sender.FindUIComponent<HiddenField, DropDownList>("hdnId4Role");
+            (var hiddenField, var dropDown) = sender.FindUIComponentAndSender<HiddenField, DropDownList>("hdnId4Role");
             var userID = hiddenField.Value.ValidateString(this).ConvertStringTo<int>();
             int roleID = dropDown.SelectedValue.ValidateString(this).ConvertStringTo<int>();
 

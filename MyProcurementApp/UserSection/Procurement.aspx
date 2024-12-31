@@ -82,6 +82,7 @@
                         <div class="quick-action-icon">📊</div>
                         <h4>View Reports</h4>
                         <p>Check procurement analytics</p>
+                         <a href="DisplayProcurement.aspx">Check procurement analytics</a>
                     </div>
                     <div class="quick-action-card">
                         <div class="quick-action-icon">🤝</div>
