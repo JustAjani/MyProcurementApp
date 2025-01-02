@@ -16,12 +16,12 @@ namespace MyProcurementApp
 {
     public partial class Default : PageUtil
     {
-        private bool isActive;
+
         protected async void Page_Load(object sender, EventArgs e)
         {
             await InitializeDependecy();
             if (!IsPostBack)
-            {   
+            {
                 ddlRoles.BindDropDownData<RoleModel>("RoleName", "RoleID", "[Enter A Role]", RoleList);
             }
         }
@@ -34,11 +34,6 @@ namespace MyProcurementApp
             RoleList = await roleDB.ReadRoles("selectRoles");
         }
 
-        protected void OnCheckUserActive(object sender, EventArgs e)
-        {
-            isActive = isUserActive.Checked;
-        }
-
         protected async void OnSubmitUser(object sender, EventArgs e)
         {
             var validatedName = userName.Text.ValidateString(this);
@@ -48,7 +43,7 @@ namespace MyProcurementApp
             {
                 Name = validatedName,
                 RoleID = roleId,
-                Active = isActive
+                Active = true,
             };
 
             string isCreated = await userDB.CreateUser("insertUser", user);

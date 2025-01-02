@@ -26,7 +26,7 @@ namespace MyProcurementApp.UserSection
             if (!IsPostBack)
             {
                 gvProcurements.BindGridData<ProcurementModel>(ProcurementList);
-                gvProcurements.BindDropDownFromGridView<ProcurementTypeModel>("ddlType","Type","ID","[Select Procurment Type]", ProcurementTypeList);
+                gvProcurements.BindDropDownFromGridView<ProcurementTypeModel>("ddlType","Type","ID", "[Select Procurment Type]", ProcurementTypeList);
                 gvProcurements.BindDropDownFromGridView<UserModel>("ddlOfficer", "Name", "UserId", "[Select Officer]", UserList);
             }
         }
@@ -70,16 +70,16 @@ namespace MyProcurementApp.UserSection
             if(e.CommandName == "EditProcurement")
             {
                 int procurementID = Convert.ToInt32(e.CommandArgument);
-                DropDownList ddlOfficer = sender.FindUIComponent<DropDownList, Button>("ddlOfficer");
-                DropDownList ddlType = sender.FindUIComponent<DropDownList, Button>("ddlType");
-                TextBox costCenterTB = sender.FindUIComponent<TextBox, Button>("txtCostCentre");
-                TextBox descriptionTB = sender.FindUIComponent<TextBox, Button>("txtDescription");
-                TextBox lotTB = sender.FindUIComponent<TextBox, Button>("txtLot");
-                TextBox estimateTB = sender.FindUIComponent<TextBox, Button>("txtEstimate");
-                TextBox requestDateTB = sender.FindUIComponent<TextBox, Button>("txtRequestDate");
-                TextBox publicationDateTB = sender.FindUIComponent<TextBox, Button>("txtPublicationDate");
-                TextBox contractValueTB = sender.FindUIComponent<TextBox, Button>("txtContractValue");
-                TextBox supplierTB = sender.FindUIComponent<TextBox, Button>("txtSupplier");
+                (DropDownList ddlOfficer, _)= sender.FindUIComponent<DropDownList, Button>("ddlOfficer");
+                (DropDownList ddlType, _ ) = sender.FindUIComponent<DropDownList, Button>("ddlType");
+                (TextBox costCenterTB, _) = sender.FindUIComponent<TextBox, Button>("txtCostCentre");
+                (TextBox descriptionTB, _) = sender.FindUIComponent<TextBox, Button>("txtDescription");
+                (TextBox lotTB, _) = sender.FindUIComponent<TextBox, Button>("txtLot");
+                (TextBox estimateTB, _) = sender.FindUIComponent<TextBox, Button>("txtEstimate");
+                (TextBox requestDateTB, _) = sender.FindUIComponent<TextBox, Button>("txtRequestDate");
+                (TextBox publicationDateTB, _) = sender.FindUIComponent<TextBox, Button>("txtPublicationDate");
+                (TextBox contractValueTB, _) = sender.FindUIComponent<TextBox, Button>("txtContractValue");
+                (TextBox supplierTB, _) = sender.FindUIComponent<TextBox, Button>("txtSupplier");
 
                 var editedProcurement = new ProcurementModel()
                 {

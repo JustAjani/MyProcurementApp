@@ -82,10 +82,6 @@
                  <asp:DropDownList ID="ddlRoles" runat="server" CssClass="form-select" AutoPostBack="true">
                  </asp:DropDownList>
              </div>
-            <div>
-                <asp:Label runat="server" Text="Is User Active?" />
-                <asp:CheckBox runat="server" id="isUserActive" OnCheckedChanged="OnCheckUserActive"/>
-            </div>
             <div class="mb-3">
                 <asp:Button ID="submitUser" runat="server" OnClick="OnSubmitUser" Text="Create User" CssClass="btn btn-primary" />
             </div>

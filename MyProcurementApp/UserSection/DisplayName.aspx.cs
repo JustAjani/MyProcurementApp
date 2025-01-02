@@ -17,34 +17,36 @@ namespace MyProcurementApp
 {
     public partial class DisplayName : PageUtil
     {
-     
-        
-        protected async void Page_Load(object sender, EventArgs e)
+      
+        protected async Task Page_Load(object sender, EventArgs e)
         {
+            await InitializeDependecy();
             if (!IsPostBack)
-            {
-                await InitializeDependecy();
+            { 
                 ddlUsers.BindDropDownData<UserModel>("Name", "UserID", "[Select User]", UserList);
             }
+        }
+
+        protected override async void OnLoad(EventArgs e)
+        {
+            await Page_Load(this, e);
         }
 
         protected override async Task InitializeDependecy()
         {
             container = (Autofac.IContainer)Application["AutofacContainer"];
             userDB = container.Resolve<UserDB>();
-            //Stores the users in list
             UserList = await userDB.ReadUser("selectActiveUsers");
         }
 
-        protected void ddlUsers_SelectedIndexChanged(object sender, EventArgs e) 
+        protected void OnSelectUserChange(object sender, EventArgs e) 
         {       
-            var selectedUserName = ddlUsers.SelectedItem;
-            var id = ddlUsers.SelectedValue;
-            //Stores name in a session
+            var selectedUserName = ddlUsers.SelectedItem.Text;
+            var selectedID = Convert.ToInt32(ddlUsers.SelectedValue);
             Session["TransferUser"] = selectedUserName;
-            Session["TransferID"] = id;
-            //Redirects to a new Page where the User will be greated
-            Response.Redirect($"Procurement.aspx?userName={selectedUserName}?id={id}"); 
+            Session["TransferID"] = selectedID;
+            var roleID = UserList.Where(name => name.Name == selectedUserName).Select(roleid => roleid.RoleID).FirstOrDefault();
+            RedirectUserOrManageHomePage(roleID, selectedUserName, selectedID);
         }
     }
 }

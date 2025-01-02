@@ -41,7 +41,7 @@ namespace MyProcurementApp.AdminSection
         {
             if(e.CommandName == "EditProcurement")
             {
-                (var textBox, var btn) = sender.FindUIComponentAndSender<TextBox,Button>("txtProcurementType");
+                (var textBox, var btn) = sender.FindUIComponent<TextBox,Button>("txtProcurementType");
                 int procurementId = Convert.ToInt32(e.CommandArgument);
                 var Type = textBox.Text.ValidateString(this);
 

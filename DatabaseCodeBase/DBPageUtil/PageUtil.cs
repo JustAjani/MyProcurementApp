@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Security;
 using System.Web.UI;
 
 namespace DatabaseCodeBase.DBPageUtil
@@ -30,6 +31,21 @@ namespace DatabaseCodeBase.DBPageUtil
         protected virtual async Task InitializeDependecy()
         {
             await Task.CompletedTask;
+        }
+
+        // Redirects user to homepage based on roleID
+        protected void RedirectUserOrManageHomePage(int roleID, string userName, int userID)
+        {
+            if (roleID == 3)
+            {
+                Response.Redirect($"~/AdminSection/Manager.aspx?manager={userName}?id={userID}", false);
+            }
+            else
+            {
+                Response.Redirect($"Procurement.aspx?userName={userName}?id={userID}", false);
+            }
+
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 }

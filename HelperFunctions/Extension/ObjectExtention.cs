@@ -10,20 +10,12 @@ namespace HelperFunctions.Extension
 {
     public static class ObjectExtention
     {
-        public static (T, A) FindUIComponentAndSender<T, A>(this object obj , string fieldName) where T : class where A : Control
+        public static (T, A) FindUIComponent<T, A>(this object obj , string fieldName) where T : class where A : Control
         {
              var sender =  obj as A;
              var row = sender.NamingContainer as GridViewRow;
              var component = row.FindControl(fieldName) as T;
              return (component, sender);
-        }
-
-        public static T FindUIComponent<T, A>(this object obj, string fieldName) where T : class where A : Control
-        {
-            var sender = obj as A;
-            var row = sender.NamingContainer as GridViewRow;
-            var component = row.FindControl(fieldName) as T;
-            return component;
         }
     }
 }

@@ -15,11 +15,13 @@ namespace MyProcurementApp.UserSection
 {
     public partial class CreateProcurement : PageUtil
     {
-        int UserID;
+        int userID, roleID;
+        string userName;
+
         protected async Task Page_Load(object sender, EventArgs e)
         {
             await InitializeDependecy();
-            UserID = Session["TransferID"].ToString().ConvertStringTo<int>();
+            userID = Session["TransferID"].ToString().ConvertStringTo<int>();
             if (!IsPostBack)
             {
                 ddlOfficer.BindDropDownData<UserModel>("Name", "UserId", "[Select Procurement Type]", UserList);
@@ -38,6 +40,8 @@ namespace MyProcurementApp.UserSection
             (procurementDB, userDB, procurementTypeDB) = container.InitializeDependency<ProcurementDB, UserDB, ProcurementTypeDB>();
             ProcurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
             UserList = await userDB.ReadUser("selectUsersByRoleId");
+            userName = UserList.Where(u => u.UserId == userID).Select(n => n.Name).FirstOrDefault();
+            roleID = UserList.Where(u => u.UserId == userID).Select(r => r.RoleID).FirstOrDefault();
         }
 
         protected async void OnSubmit(object sender, EventArgs e)
@@ -67,7 +71,7 @@ namespace MyProcurementApp.UserSection
             var procurement = new ProcurementModel()
             {
                 ProcurementOfficer = officer,
-                UserId = UserID,
+                UserId = userID,
                 CostCentre = costCenter,
                 Description = description,
                 DateOfRequest = DateTime.Now,
@@ -94,6 +98,7 @@ namespace MyProcurementApp.UserSection
 
             var procurementMade = await procurementDB.CreateProcurement("insertProcurementTracking", procurement);
             procurementMade.AlertSuccessORFail(this);
+            RedirectUserOrManageHomePage(roleID, userName, userID);
         }
 
     }

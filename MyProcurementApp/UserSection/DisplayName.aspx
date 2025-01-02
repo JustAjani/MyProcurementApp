@@ -58,7 +58,7 @@
             <h2 class="login-header">Select User</h2>
             <div class="mb-3">
                 <asp:DropDownList ID="ddlUsers" runat="server" CssClass="form-select" 
-                    AutoPostBack="true" OnSelectedIndexChanged="ddlUsers_SelectedIndexChanged">
+                    AutoPostBack="true" OnSelectedIndexChanged="OnSelectUserChange">
                     <asp:ListItem Text="Select a User" Value="" Selected="True" disabled="disabled"></asp:ListItem>
                 </asp:DropDownList>
             </div>
