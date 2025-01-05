@@ -73,8 +73,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AdminSection\AdminCreateCostCenter.aspx" />
     <Content Include="AdminSection\AdminCreateProcurement.aspx" />
     <Content Include="AdminSection\AdminCreateRole.aspx" />
+    <Content Include="AdminSection\AdminReadCostCentre.aspx" />
     <Content Include="AdminSection\AdminReadName.aspx" />
     <Content Include="AdminSection\AdminCreateName.aspx" />
     <Content Include="AdminSection\AdminReadProcurement.aspx" />
@@ -88,6 +90,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminSection\AdminCreateCostCenter.aspx.cs">
+      <DependentUpon>AdminCreateCostCenter.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminSection\AdminCreateCostCenter.aspx.designer.cs">
+      <DependentUpon>AdminCreateCostCenter.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AdminSection\AdminCreateProcurement.aspx.cs">
       <DependentUpon>AdminCreateProcurement.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -101,6 +110,13 @@
     </Compile>
     <Compile Include="AdminSection\AdminCreateRole.aspx.designer.cs">
       <DependentUpon>AdminCreateRole.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminSection\AdminReadCostCentre.aspx.cs">
+      <DependentUpon>AdminReadCostCentre.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminSection\AdminReadCostCentre.aspx.designer.cs">
+      <DependentUpon>AdminReadCostCentre.aspx</DependentUpon>
     </Compile>
     <Compile Include="AdminSection\AdminReadName.aspx.cs">
       <DependentUpon>AdminReadName.aspx</DependentUpon>

@@ -11,6 +11,7 @@ namespace DatabaseCodeBase.Model
         public int ProcurementTrackingId { get; set; }
         public int ProcurementOfficer { get; set; }
         public int UserId { get; set; }
+        public int CostCentreId { get; set; }
         public string CostCentre { get; set; }
         public DateTime DateOfRequest { get; set; }
         public string MediumUsedToSendRequest { get; set; }

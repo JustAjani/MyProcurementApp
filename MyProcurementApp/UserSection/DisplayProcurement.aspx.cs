@@ -71,7 +71,7 @@ namespace MyProcurementApp.UserSection
             {
                 int procurementID = Convert.ToInt32(e.CommandArgument);
                 (DropDownList ddlOfficer, _)= sender.FindUIComponent<DropDownList, Button>("ddlOfficer");
-                (DropDownList ddlType, _ ) = sender.FindUIComponent<DropDownList, Button>("ddlType");
+                (DropDownList ddlType, _) = sender.FindUIComponent<DropDownList, Button>("ddlType");
                 (TextBox costCenterTB, _) = sender.FindUIComponent<TextBox, Button>("txtCostCentre");
                 (TextBox descriptionTB, _) = sender.FindUIComponent<TextBox, Button>("txtDescription");
                 (TextBox lotTB, _) = sender.FindUIComponent<TextBox, Button>("txtLot");
@@ -86,7 +86,7 @@ namespace MyProcurementApp.UserSection
                     ProcurementTrackingId = procurementID,
                     ProcurementTypeId = ddlType.SelectedValue.ValidateString(this).ConvertStringTo<int>(),
                     ProcurementOfficer = ddlOfficer.SelectedValue.ValidateString(this).ConvertStringTo<int>(),
-                    CostCentre = costCenterTB.Text.ValidateString(this),
+                    
                     Description = descriptionTB.Text.ValidateString(this),
                     LotProcurement = lotTB.Text.ValidateString(this),
                     ComparativeEstimate = estimateTB.Text.ValidateString(this).Replace("$","").ConvertStringTo<decimal>(),

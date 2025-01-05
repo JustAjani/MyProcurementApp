@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CustomExceptions\CustomExceptions.cs" />
     <Compile Include="DatabaseCode\BaseDatabase.cs" />
+    <Compile Include="DatabaseCode\CostCenterDB.cs" />
     <Compile Include="DatabaseCode\ProcurementDB.cs" />
     <Compile Include="DatabaseCode\ProcurementTypeDB.cs" />
     <Compile Include="DatabaseCode\RoleDB.cs" />
@@ -55,11 +56,13 @@
     <Compile Include="DBPageUtil\PageUtil.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Model\CostCenterModel.cs" />
     <Compile Include="Model\ProcurementModel.cs" />
     <Compile Include="Model\ProcurementTypeModel.cs" />
     <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceInterface\ICostCenter.cs" />
     <Compile Include="ServiceInterface\IProcurement.cs" />
     <Compile Include="ServiceInterface\IRole.cs" />
     <Compile Include="ServiceInterface\IUserDB.cs" />

@@ -27,7 +27,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@ProcurementOfficer", SqlDbType.Int) { Value = procurement.ProcurementOfficer });
                         cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = procurement.UserId });
-                        cmd.Parameters.Add(new SqlParameter("@CostCentre", SqlDbType.NVarChar, 255) { Value = procurement.CostCentre });
+                        cmd.Parameters.Add(new SqlParameter("@CostCentreId", SqlDbType.Int) { Value = procurement.CostCentreId });
                         cmd.Parameters.Add(new SqlParameter("@DateOfRequest", SqlDbType.Date) { Value = procurement.DateOfRequest });
                         cmd.Parameters.Add(new SqlParameter("@MediumUsedToSendRequest", SqlDbType.NVarChar, 255) { Value = procurement.MediumUsedToSendRequest });
                         cmd.Parameters.Add(new SqlParameter("@Description", SqlDbType.NVarChar, -1) { Value = procurement.Description });
@@ -90,7 +90,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.Parameters.Add(new SqlParameter("@ProcurementTrackingId", SqlDbType.Int) { Value = procurement.ProcurementTrackingId });
                         cmd.Parameters.Add(new SqlParameter("@ProcurementOfficer", SqlDbType.Int) { Value = procurement.ProcurementOfficer });
                         cmd.Parameters.Add(new SqlParameter("@ProcurementTypeId", SqlDbType.Int) { Value = procurement.ProcurementTypeId });
-                        cmd.Parameters.Add(new SqlParameter("@CostCentre", SqlDbType.NVarChar, 50) { Value = procurement.CostCentre });
+                        cmd.Parameters.Add(new SqlParameter("@CostCentreId", SqlDbType.Int) { Value = procurement.CostCentreId });
                         cmd.Parameters.Add(new SqlParameter("@Description", SqlDbType.NVarChar, 500) { Value = procurement.Description });
                         cmd.Parameters.Add(new SqlParameter("@LotProcurement", SqlDbType.NVarChar, 50) { Value = procurement.LotProcurement });
                         cmd.Parameters.Add(new SqlParameter("@ComparativeEstimate", SqlDbType.Decimal) { Value = procurement.ComparativeEstimate });
@@ -137,7 +137,7 @@ namespace DatabaseCodeBase.DatabaseCode
                                 ProcurementTrackingId = (int)reader["ProcurementTrackingId"],
                                 ProcurementOfficer = (int)reader["Procurement Officer"],
                                 UserId = (int)reader["UserId"],
-                                CostCentre = (string)reader["Cost Centre"],
+                                CostCentreId = (int)reader["CostCentreId"],
                                 DateOfRequest = (DateTime)reader["Date of Request"],
                                 MediumUsedToSendRequest = (string)reader["Medium used to send request"],
                                 Description = (string)reader["Description"],
@@ -199,7 +199,7 @@ namespace DatabaseCodeBase.DatabaseCode
                             procurement.ProcurementTrackingId = (int)reader["ProcurementTrackingId"];
                             procurement.ProcurementOfficer = (int)reader["Procurement Officer"];
                             procurement.UserId = (int)reader["UserId"];
-                            procurement.CostCentre = reader["Cost Centre"].ToString();
+                            procurement.CostCentreId = (int)reader["CostCentreId"];
                             procurement.DateOfRequest = (DateTime)reader["Date of Request"];
                             procurement.MediumUsedToSendRequest = reader["Medium used to send request"].ToString();
                             procurement.Description = reader["Description"].ToString();

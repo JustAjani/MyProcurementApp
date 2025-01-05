@@ -91,7 +91,7 @@ namespace InputOutputOperation.PDFUtility
             AddDataRow(table, "Procurement ID", model.ProcurementTrackingId.ToString(), dataFont);
             AddDataRow(table, "Procurement Officer ID", model.ProcurementOfficer.ToString(), dataFont);
             AddDataRow(table, "User ID", model.UserId.ToString(), dataFont);
-            AddDataRow(table, "Cost Centre", model.CostCentre, dataFont);
+            //AddDataRow(table, "Cost Centre", model.CostCentreId, dataFont);
             AddDataRow(table, "Date of Request", model.DateOfRequest.ToShortDateString(), dataFont);
             AddDataRow(table, "Medium Used to Send Request", model.MediumUsedToSendRequest, dataFont);
             AddDataRow(table, "Description", model.Description, dataFont);

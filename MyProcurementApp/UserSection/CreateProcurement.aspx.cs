@@ -72,7 +72,7 @@ namespace MyProcurementApp.UserSection
             {
                 ProcurementOfficer = officer,
                 UserId = userID,
-                CostCentre = costCenter,
+               
                 Description = description,
                 DateOfRequest = DateTime.Now,
                 MediumUsedToSendRequest = mediumUsed,

@@ -162,6 +162,13 @@
                             <p>View all procurement types</p>
                             <asp:Button ID="btnViewTypes" runat="server" Text="View Types" CssClass="btn btn-primary" OnClick="RedirectToViewTypes" />
                         </div>
+
+                        <div class="quick-action-card">
+                            <div class="quick-action-icon">➕</div>
+                            <h4>Cost Center</h4>
+                            <p>Create A New CostCenter</p>
+                            <asp:Button ID="btnAddCC" runat="server" Text="Add CostCenter" CssClass="btn btn-primary" OnClick="RedirectToCreateCC" />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -47,5 +47,9 @@ namespace MyProcurementApp.AdminSection
             Response.Redirect("AdminReadProcurement.aspx");
         }
 
+        protected void RedirectToCreateCC(object sender, EventArgs e)
+        {
+            Response.Redirect("AdminCreateCostCenter.aspx");
+        }
     }
 }
