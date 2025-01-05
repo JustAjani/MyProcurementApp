@@ -46,36 +46,6 @@ namespace DatabaseCodeBase.DatabaseCode
             return output;
         }
 
-        public async Task<string> DeleteUser(string storedprocedure, int UserID)
-        {
-            string output = string.Empty;
-            try
-            {
-                using (var conn = new SqlConnection(_ConnectionString))
-                {
-                    await conn.OpenAsync();
-                    using (var cmd = new SqlCommand(storedprocedure, conn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@UseraID", SqlDbType.Int) { Value = UserID });
-                        int affectedRows = await cmd.ExecuteNonQueryAsync();
-
-                        if (affectedRows > 0) output = "Delete Successful!";
-                        else output = "Delete Failed!";
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                OnQueryFail($"Unexpected Error {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                OnQueryFail($"Unexpected Error: {ex.Message}");
-            }
-            return output;
-        }
-
         public async Task<List<UserModel>> ReadUser(string storedprocedure)
         {
             var UserList = new List<UserModel>();
@@ -127,37 +97,7 @@ namespace DatabaseCodeBase.DatabaseCode
 
                         cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = userModel.UserId });
                         cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 255) { Value = userModel.Name });
-
-                        int affectedRows = await cmd.ExecuteNonQueryAsync();
-                        if (affectedRows > 0) output = "Update Successfull";
-                        else output = "Update Failed!";
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                OnQueryFail($"Unexpected Error: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                OnQueryFail($"Unexpected Error {ex.Message}");
-            }
-            return output;
-        }
-
-        public async Task<string> UpdateUserActivity(string storedprocedure, UserModel userModel)
-        {
-            string output = string.Empty;
-            try
-            {
-                using (var conn = new SqlConnection(_ConnectionString))
-                {
-                    await conn.OpenAsync();
-                    using (var cmd = new SqlCommand(storedprocedure, conn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = userModel.UserId });
+                        cmd.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value= userModel.RoleID});
                         cmd.Parameters.Add(new SqlParameter("@Active", SqlDbType.Bit) { Value = userModel.Active });
 
                         int affectedRows = await cmd.ExecuteNonQueryAsync();
@@ -177,36 +117,5 @@ namespace DatabaseCodeBase.DatabaseCode
             return output;
         }
 
-        public async Task<string> UpdateUserRole(string storedprocedure, UserModel userModel)
-        {
-            string output = string.Empty;
-            try
-            {
-                using (var conn = new SqlConnection(_ConnectionString))
-                {
-                    await conn.OpenAsync();
-                    using (var cmd = new SqlCommand(storedprocedure, conn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        cmd.Parameters.Add(new SqlParameter("@UserID", SqlDbType.Int) { Value = userModel.UserId });
-                        cmd.Parameters.Add(new SqlParameter("@RoleId", SqlDbType.Int) { Value = userModel.RoleID });
-
-                        int affectedRows = await cmd.ExecuteNonQueryAsync();
-                        if (affectedRows > 0) output = "Update Successfull";
-                        else output = "Update Failed!";
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                OnQueryFail($"Unexpected Error: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                OnQueryFail($"Unexpected Error {ex.Message}");
-            }
-            return output;
-        }
     }
 }

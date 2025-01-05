@@ -47,7 +47,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.Parameters.Add(new SqlParameter("@DateContractReceivedFromCostCentre", SqlDbType.Date) { Value = procurement.DateContractReceivedFromCostCentre });
                         cmd.Parameters.Add(new SqlParameter("@DateContractSubmittedToLegal", SqlDbType.Date) { Value = procurement.DateContractSubmittedToLegal });
                         cmd.Parameters.Add(new SqlParameter("@DateContractApproved", SqlDbType.Date) { Value = procurement.DateContractApproved });
-                        cmd.Parameters.Add(new SqlParameter("@RecommendedSupplier", SqlDbType.NVarChar, 255) { Value = procurement.RecommendedSupplier });
+                        cmd.Parameters.Add(new SqlParameter("@RecommendedSupplier", SqlDbType.Int) { Value = procurement.RecommendedSupplierID });
                         cmd.Parameters.Add(new SqlParameter("@ActualContractValue", SqlDbType.Decimal) { Value = procurement.ActualContractValue });
                         cmd.Parameters.Add(new SqlParameter("@ExternalApproval", SqlDbType.NVarChar, 3) { Value = procurement.ExternalApproval });
                         cmd.Parameters.Add(new SqlParameter("@DateSentToPurchasingUnit", SqlDbType.Date) { Value = procurement.DateSentToPurchasingUnit });
@@ -97,7 +97,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.Parameters.Add(new SqlParameter("@DateOfRequest", SqlDbType.Date) { Value = procurement.DateOfRequest });
                         cmd.Parameters.Add(new SqlParameter("@PublicationDate", SqlDbType.Date) { Value = procurement.PublicationDate });
                         cmd.Parameters.Add(new SqlParameter("@ActualContractValue", SqlDbType.Decimal) { Value = procurement.ActualContractValue });
-                        cmd.Parameters.Add(new SqlParameter("@RecommendedSupplier", SqlDbType.NVarChar, 100) { Value = procurement.RecommendedSupplier });
+                        cmd.Parameters.Add(new SqlParameter("@RecommendedSupplier", SqlDbType.Int) { Value = procurement.RecommendedSupplierID });
 
                         await cmd.ExecuteNonQueryAsync();
                         int rowsAffected = await cmd.ExecuteNonQueryAsync();
@@ -157,7 +157,7 @@ namespace DatabaseCodeBase.DatabaseCode
                                 DateContractReceivedFromCostCentre = (DateTime)reader["Date Contract received from Cost Centre (if Required)"],
                                 DateContractSubmittedToLegal = (DateTime)reader["Date Contract Submitted to Legal"],
                                 DateContractApproved = (DateTime)reader["Date Contract Approved (if Required)"],
-                                RecommendedSupplier = (string)reader["Recommended Supplier"],
+                                RecommendedSupplierID = (int)reader["Recommended Supplier"],
                                 ActualContractValue = (decimal)reader["Actual Contract Value"],
                                 ExternalApproval = (string)reader["External Approval (Yes/No)"],
                                 DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"],
@@ -219,7 +219,7 @@ namespace DatabaseCodeBase.DatabaseCode
                             procurement.DateContractReceivedFromCostCentre = (DateTime)reader["Date Contract received from Cost Centre (if Required)"];
                             procurement.DateContractSubmittedToLegal = (DateTime)reader["Date Contract Submitted to Legal"];
                             procurement.DateContractApproved = (DateTime)reader["Date Contract Approved (if Required)"];
-                            procurement.RecommendedSupplier = reader["Recommended Supplier"].ToString();
+                            procurement.RecommendedSupplierID = (int)reader["Recommended Supplier"];
                             procurement.ActualContractValue = (decimal)reader["Actual Contract Value"];
                             procurement.ExternalApproval = reader["External Approval (Yes/No)"].ToString();
                             procurement.DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"];

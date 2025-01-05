@@ -11,8 +11,6 @@ namespace DatabaseCodeBase.ServiceInterface
         Task<string> CreateUser(string storedprocedure , T userModel);
         Task<List<T>> ReadUser(string storedprocedure);
         Task<string> UpdateUser(string storedprocedure , T userModel);
-        Task<string> UpdateUserActivity(string storedprocedure , T userModel);
-        Task<string> UpdateUserRole(string storedprocedure , T userModel);
-        Task<string> DeleteUser(string storedprocedure , int UserID);
+        
     }
 }

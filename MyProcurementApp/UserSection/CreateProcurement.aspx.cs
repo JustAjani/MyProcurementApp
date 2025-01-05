@@ -26,6 +26,7 @@ namespace MyProcurementApp.UserSection
             {
                 ddlOfficer.BindDropDownData<UserModel>("Name", "UserId", "[Select Procurement Type]", UserList);
                 ddlProcurementType.BindDropDownData<ProcurementTypeModel>("Type", "ID", "Select procurement Type", ProcurementTypeList);
+                ddlCostCentre.BindDropDownData<CostCenterModel>("CostCenterName", "CostCenterId", "Select Cost Center", CostCenterList);
             }
         }
 
@@ -38,16 +39,18 @@ namespace MyProcurementApp.UserSection
         {
             container = (IContainer)Application["AutofacContainer"];
             (procurementDB, userDB, procurementTypeDB) = container.InitializeDependency<ProcurementDB, UserDB, ProcurementTypeDB>();
+            costCenterDB = container.Resolve<CostCenterDB>();
             ProcurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
             UserList = await userDB.ReadUser("selectUsersByRoleId");
             userName = UserList.Where(u => u.UserId == userID).Select(n => n.Name).FirstOrDefault();
             roleID = UserList.Where(u => u.UserId == userID).Select(r => r.RoleID).FirstOrDefault();
+            CostCenterList = await costCenterDB.ReadCostCenter("selectCostCentre");
         }
 
         protected async void OnSubmit(object sender, EventArgs e)
         {
             var officer = ddlOfficer.SelectedValue.ValidateString(this).ConvertStringTo<int>();
-            var costCenter = txtCostCentre.Text.ValidateString(this);
+            var costCenterid = ddlCostCentre.SelectedValue.ValidateString(this).ConvertStringTo<int>();
             var description = txtDescription.Text.ValidateString(this);
             var mediumUsed = txtMediumUsed.Text.ValidateString(this);
             var lotProcurement = txtLotProcurement.Text.ValidateString(this);
@@ -72,7 +75,7 @@ namespace MyProcurementApp.UserSection
             {
                 ProcurementOfficer = officer,
                 UserId = userID,
-               
+                CostCentreId = costCenterid,
                 Description = description,
                 DateOfRequest = DateTime.Now,
                 MediumUsedToSendRequest = mediumUsed,
@@ -80,7 +83,7 @@ namespace MyProcurementApp.UserSection
                 ComparativeEstimate = comparativeEstimate,
                 ActualContractValue = actualContractValue,
                 ProcurementTypeId = procurementType,
-                RecommendedSupplier = recommendedSupplier,
+                //RecommendedSupplier = recommendedSupplier,
                 FitAndReadyDate = fitAndReadyDate,
                 PublicationDate = publicationDate,
                 DateTenderClosed = dateTenderClosed,
@@ -94,6 +97,7 @@ namespace MyProcurementApp.UserSection
                 DateContractApproved = contractDateApproval,
                 Status = "Pending Approval",
                 Comments = comments,
+                
             };
 
             var procurementMade = await procurementDB.CreateProcurement("insertProcurementTracking", procurement);

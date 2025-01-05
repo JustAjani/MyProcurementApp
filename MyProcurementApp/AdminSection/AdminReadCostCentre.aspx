@@ -78,6 +78,17 @@
             outline: 0;
             box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
         }
+
+        .status-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .status-cell {
+            text-align: center;
+            vertical-align: middle;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -101,6 +112,17 @@
                                     CssClass="name-input"
                                     placeholder="Enter cost center name">
                                 </asp:TextBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Active Status">
+                            <ItemTemplate>
+                                <div class="status-cell">
+                                    <asp:CheckBox ID="chkActive" runat="server" 
+                                        Checked='<%# Eval("IsActive") %>' 
+                                        CssClass="status-checkbox"
+                                        AutoPostBack="true"
+                                         />
+                                </div>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Actions">

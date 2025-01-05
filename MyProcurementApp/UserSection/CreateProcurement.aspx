@@ -81,10 +81,12 @@
                             <asp:DropDownList ID="ddlOfficer" runat="server" CssClass="form-select" AutoPostBack="true">
                             </asp:DropDownList>
                         </div>
-                        <div class="col-md-6">
+                       <div class="col-md-6">
                             <label class="form-label required">Cost Centre</label>
-                            <asp:TextBox ID="txtCostCentre" runat="server" CssClass="form-control" Required="true" />
+                            <asp:DropDownList ID="ddlCostCentre" runat="server" CssClass="form-select" AutoPostBack="true">
+                            </asp:DropDownList>
                         </div>
+
                         <div class="col-md-12">
                             <label class="form-label required">Description</label>
                             <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" Required="true" />

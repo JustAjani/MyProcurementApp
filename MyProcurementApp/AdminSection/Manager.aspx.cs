@@ -51,5 +51,11 @@ namespace MyProcurementApp.AdminSection
         {
             Response.Redirect("AdminCreateCostCenter.aspx");
         }
+
+        protected void RedirectToManageCostCenters(object sender, EventArgs e)
+        {
+            Response.Redirect("AdminReadCostCentre.aspx");
+        }
+
     }
 }

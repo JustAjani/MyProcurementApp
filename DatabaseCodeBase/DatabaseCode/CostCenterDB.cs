@@ -27,6 +27,7 @@ namespace DatabaseCodeBase.DatabaseCode
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@CostCentreName", SqlDbType.NVarChar, 256) { Value = costCenter.CostCenterName});
+                        cmd.Parameters.Add(new SqlParameter("@isActive", SqlDbType.Bit) { Value = costCenter.isActive = true });
                         int rowsAffected = await cmd.ExecuteNonQueryAsync();
                         if (rowsAffected > 0) output = "Cost Center Added Successfully";
                         else output = "Failed to Add";
@@ -60,11 +61,44 @@ namespace DatabaseCodeBase.DatabaseCode
                         {
                             var costCenter = new CostCenterModel()
                             {
-                                CostCenterId = (int)reader["CostCenterId"],
-                                CostCenterName = (string)reader["CostCenterName"],
+                                CostCenterId = (int)reader["CostCentreId"],
+                                CostCenterName = (string)reader["CostCentreName"],
+                                isActive = (bool)reader["isActive"]
                             };
                             output.Add(costCenter);
                         }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                OnQueryFail($"Unexpected Error: {ex.Message}");
+            }
+            return output;
+        }
+
+        public async Task<string> UpdateCostCenter(string storeProcedure, CostCenterModel costCenter)
+        {
+            string output = string.Empty;
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(_ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand(storeProcedure, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@CostCentreId", SqlDbType.Int) { Value = costCenter.CostCenterId});
+                        cmd.Parameters.Add(new SqlParameter("@CostCentreName", SqlDbType.NVarChar, 256) { Value = costCenter.CostCenterName });
+                        cmd.Parameters.Add(new SqlParameter("@isActive", SqlDbType.Bit) { Value = costCenter.isActive });
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        if (rowsAffected > 0) output = "Cost Center Update Successfull";
+                        else output = "Failed to Update";
+
                     }
                 }
             }

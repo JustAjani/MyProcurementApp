@@ -32,7 +32,7 @@ namespace DatabaseCodeBase.Model
         public DateTime DateContractReceivedFromCostCentre { get; set; }
         public DateTime DateContractSubmittedToLegal { get; set; }
         public DateTime DateContractApproved { get; set; }
-        public string RecommendedSupplier { get; set; }
+        public int RecommendedSupplierID { get; set; }
         public decimal ActualContractValue { get; set; }
         public string ExternalApproval { get; set; }
         public DateTime DateSentToPurchasingUnit { get; set; }

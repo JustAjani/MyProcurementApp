@@ -66,11 +66,10 @@
         }
 
         .name-input, .role-select {
-            width: 100%;
+            width: auto;
             padding: 0.375rem 0.75rem;
             border: 1px solid #ced4da;
             border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
         .name-input:focus, .role-select:focus {
@@ -89,13 +88,6 @@
         .status-label {
             vertical-align: middle;
             margin-bottom: 0;
-        }
-
-        .role-section {
-            margin-bottom: 20px;
-        }
-        .role-select {
-            width: 200px;
         }
 
     </style>
@@ -126,31 +118,26 @@
                         <asp:TemplateField HeaderText="Actions">
                             <ItemTemplate>
                                 <div class="d-flex align-items-center gap-2">
-                                    <asp:Button ID="btnEdit" runat="server" 
-                                        Text="Edit Name" 
-                                        CssClass="btn btn-sm btn-action btn-edit" 
-                                        CommandName="EditUser" 
-                                        CommandArgument='<%# Eval("UserID") %>' 
-                                        OnCommand="OnEditCommand"/>
-                                    
-
                                     <asp:DropDownList ID="ddlRole" runat="server" 
                                         CssClass="form-select form-select-sm role-select"
-                                        AutoPostBack="true"
-                                        OnSelectedIndexChanged="OnRoleChanged">
+                                        AutoPostBack="true">
                                     </asp:DropDownList>
-                                    <asp:HiddenField ID="hdnId4Role" runat="server" Value='<%# Eval("UserID") %>'/>
-
                                     
-                                    <div class="form-check">
+                                    <div class="form-check d-flex align-items-center">
                                         <asp:CheckBox ID="chkActive" runat="server" 
                                             CssClass="status-checkbox"
                                             Checked='<%# Eval("Active") %>'
                                             AutoPostBack="true"
-                                            OnCheckedChanged="OnStatusChanged" />
-                                        <asp:HiddenField ID="hdnUserID" runat="server" Value='<%# Eval("UserID") %>' />
-                                        <label class="status-label">Active?</label>
+                                            />
+                                        <label class="status-label mb-0">Active?</label>
                                     </div>
+                                    
+                                    <asp:Button ID="btnEdit" runat="server" 
+                                        Text="Edit" 
+                                        CssClass="btn btn-sm btn-action btn-edit" 
+                                        CommandName="EditUser" 
+                                        CommandArgument='<%# Eval("UserID") %>' 
+                                        OnCommand="OnEditCommand"/>
                                 </div>
                             </ItemTemplate>
                         </asp:TemplateField>

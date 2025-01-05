@@ -11,5 +11,7 @@ namespace DatabaseCodeBase.ServiceInterface
     {
         Task<string> CreateCostCenter(string storeProcedure, T costCenter);
         Task<List<T>> ReadCostCenter(string storeProcedure);
+        Task<string>  UpdateCostCenter(string storeProcedure, T costCenter);
+
     }
 }

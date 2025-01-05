@@ -111,7 +111,7 @@ namespace InputOutputOperation.PDFUtility
             AddDataRow(table, "Date Contract Received from Cost Centre", model.DateContractReceivedFromCostCentre.ToShortDateString(), dataFont);
             AddDataRow(table, "Date Contract Submitted to Legal", model.DateContractSubmittedToLegal.ToShortDateString(), dataFont);
             AddDataRow(table, "Date Contract Approved", model.DateContractApproved.ToShortDateString(), dataFont);
-            AddDataRow(table, "Recommended Supplier", model.RecommendedSupplier, dataFont);
+            //AddDataRow(table, "Recommended Supplier", model.RecommendedSupplierID, dataFont);
             AddDataRow(table, "Actual Contract Value", model.ActualContractValue.ToString("C"), dataFont);
             AddDataRow(table, "External Approval", model.ExternalApproval, dataFont);
             AddDataRow(table, "Date Sent to Purchasing Unit", model.DateSentToPurchasingUnit.ToShortDateString(), dataFont);

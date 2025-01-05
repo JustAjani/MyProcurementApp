@@ -28,7 +28,7 @@ namespace MyProcurementApp.AdminSection
         {
             container = (IContainer)Application["AutofacContainer"];
             costCenterDB = container.Resolve<CostCenterDB>();
-            CostCenterList = await costCenterDB.ReadCostCenter("");
+            CostCenterList = await costCenterDB.ReadCostCenter("selectCostCentre");
         }
 
         protected async void OnEditCommand(object sender, CommandEventArgs e)
@@ -36,7 +36,22 @@ namespace MyProcurementApp.AdminSection
             if(e.CommandName == "EditCostCenter")
             {
                 int costCenterid = Convert.ToInt32(e.CommandArgument);
+                (TextBox costCenterName, _) = sender.FindUIComponent<TextBox, Button>("txtCostCenterName");
+                (CheckBox isActive, _) = sender.FindUIComponent<CheckBox, Button>("chkActive");
+
+                var editCostCenter = new CostCenterModel()
+                {
+                    CostCenterId = costCenterid,
+                    CostCenterName = costCenterName.Text.ValidateString(this),
+                    isActive = isActive.Checked
+                };
+
+                string isUpdated = await costCenterDB.UpdateCostCenter("updateCostCentre", editCostCenter);
+                isUpdated.AlertSuccessORFail(this);
+                
             }
         }
+
+        
     }
 }

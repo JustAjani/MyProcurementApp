@@ -93,7 +93,7 @@ namespace MyProcurementApp.UserSection
                     DateOfRequest = requestDateTB.Text.ValidateString(this).StringToDate(this),
                     PublicationDate = publicationDateTB.Text.ValidateString(this).StringToDate(this),
                     ActualContractValue = contractValueTB.Text.ValidateString(this).Replace("$","").ConvertStringTo<decimal>(),
-                    RecommendedSupplier = supplierTB.Text.ValidateString(this),
+                    
                 };
 
                 string isComplete = await procurementDB.UpdateProcurement("updateProcurementTrackingById", editedProcurement);

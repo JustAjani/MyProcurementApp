@@ -10,5 +10,6 @@ namespace DatabaseCodeBase.Model
     {
         public int CostCenterId { get; set; }
         public string CostCenterName { get; set; }
+        public bool isActive { get; set; }
     }
 }

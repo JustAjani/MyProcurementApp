@@ -169,6 +169,13 @@
                             <p>Create A New CostCenter</p>
                             <asp:Button ID="btnAddCC" runat="server" Text="Add CostCenter" CssClass="btn btn-primary" OnClick="RedirectToCreateCC" />
                         </div>
+
+                        <div class="quick-action-card">
+                            <div class="quick-action-icon">🏢</div>
+                            <h4>Manage Cost Centers</h4>
+                            <p>View, edit, and create Cost Centers</p>
+                            <asp:Button ID="btnManageCostCenters" runat="server" Text="Manage Cost Centers" CssClass="btn btn-primary" OnClick="RedirectToManageCostCenters" />
+                        </div>
                     </div>
                 </div>
             </div>

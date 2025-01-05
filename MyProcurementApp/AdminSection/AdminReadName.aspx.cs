@@ -22,7 +22,7 @@ namespace MyProcurementApp.AdminSection
             if (!IsPostBack)
             {
                 gvUsers.BindGridData<UserModel>(UserList);
-                gvUsers.BindDropDownFromGridView<RoleModel>("ddlRole","RoleName", "RoleID","[Select Role]", RoleList); 
+                gvUsers.BindDropDownFromGridView<RoleModel>("ddlRole", "RoleName", "RoleID", "[Select Role]", RoleList);
             }
         }
 
@@ -38,57 +38,33 @@ namespace MyProcurementApp.AdminSection
             RoleList = await roleDB.ReadRoles("selectRoles");
             UserList = await userDB.ReadUser("selectAllUsers");
         }
-       
+
         protected async void OnEditCommand(object sender, CommandEventArgs e)
         {
             if (e.CommandName == "EditUser")
             {
                 int userId = Convert.ToInt32(e.CommandArgument);
-                (var textbox, var editbtn) = sender.FindUIComponent<TextBox, Button>("txtName");
-                var name = textbox.Text.ValidateString(this);
+                (var name, _) = sender.FindUIComponent<TextBox, Button>("txtName");
+                (var isActive, _) = sender.FindUIComponent<CheckBox, Button>("chkActive");
+                (var roleChange, _) = sender.FindUIComponent<DropDownList, Button>("ddlRole");
+
+                var RoleID = 0;  
+                var roleIDString = roleChange.SelectedValue.ValidateString(this);
+
+                if (int.TryParse(roleIDString, out int value)) RoleID = value;
+                else RoleID = UserList.Where(s => s.Name == name.Text).Select(s => s.RoleID).FirstOrDefault();
 
                 var updatedUser = new UserModel()
                 {
                     UserId = userId,
-                    Name = name
+                    Name = name.Text.ValidateString(this),
+                    RoleID = RoleID,
+                    Active = isActive.Checked
                 };
 
                 string isUpdated = await userDB.UpdateUser("updateUserName", updatedUser);
                 isUpdated.AlertSuccessORFail(this);
             }
-        }
-
-        protected async void OnStatusChanged(object sender, EventArgs e)
-        {
-            (var hiddenID, var checkBox) = sender.FindUIComponent<HiddenField, CheckBox>("hdnUserID");
-            var userID = hiddenID.Value.ValidateString(this).ConvertStringTo<int>();
-            var isActive = checkBox.Checked;
-
-            var updatedActivity = new UserModel()
-            {
-                UserId = userID,
-                Active = isActive
-            };
-
-            string isUpdated = await userDB.UpdateUserActivity("updateUserActiveStatus", updatedActivity);
-            isUpdated.AlertSuccessORFail(this);
-        }
-
-        protected async void OnRoleChanged(object sender, EventArgs e)
-        {
-         
-            (var hiddenField, var dropDown) = sender.FindUIComponent<HiddenField, DropDownList>("hdnId4Role");
-            var userID = hiddenField.Value.ValidateString(this).ConvertStringTo<int>();
-            int roleID = dropDown.SelectedValue.ValidateString(this).ConvertStringTo<int>();
-
-            var updateUserRole = new UserModel()
-            {
-                UserId = userID,
-                RoleID = roleID,
-            };
-
-            string isUpdated = await userDB.UpdateUserRole("updateUserRole", updateUserRole);
-            isUpdated.AlertSuccessORFail(this);
         }
     }
 }
