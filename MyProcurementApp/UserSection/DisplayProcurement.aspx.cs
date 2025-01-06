@@ -19,6 +19,7 @@ namespace MyProcurementApp.UserSection
     public partial class DisplayProcurement : PageUtil
     {
         int userID;
+        string officer, type, costCenter, supplier;
         protected async Task Page_Load(object sender, EventArgs e)
         {
             userID = Session["TransferID"].ToString().ConvertStringTo<int>();
@@ -46,7 +47,8 @@ namespace MyProcurementApp.UserSection
                 var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
                 if (procurement != null)
                 {
-                    officerLabel.Text = UserList.FirstOrDefault(u => u.UserId == procurement.ProcurementOfficer)?.Name ?? "N/A";
+                    officer = UserList.FirstOrDefault(u => u.UserId == procurement.ProcurementOfficer)?.Name ?? "N/A";
+                    officerLabel.Text = officer;
                 }
             });
 
@@ -55,7 +57,8 @@ namespace MyProcurementApp.UserSection
                 var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
                 if (procurement != null)
                 {
-                    typeLabel.Text = ProcurementTypeList.FirstOrDefault(p => p.ID == procurement.ProcurementTypeId)?.Type ?? "N/A";
+                    type = ProcurementTypeList.FirstOrDefault(p => p.ID == procurement.ProcurementTypeId)?.Type ?? "N/A";
+                    typeLabel.Text = type;
                 }
             });
 
@@ -64,7 +67,8 @@ namespace MyProcurementApp.UserSection
                 var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
                 if (procurement != null)
                 {
-                    costCenterLabel.Text = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
+                    costCenter = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
+                    costCenterLabel.Text = costCenter;
                 }
             });
 
@@ -73,7 +77,8 @@ namespace MyProcurementApp.UserSection
                 var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
                 if (procurement != null)
                 {
-                    supplierLabel.Text = SupplierList.FirstOrDefault(s => s.SupplierId == procurement.RecommendedSupplierID)?.SupplierName ?? "N/A";
+                    supplier = SupplierList.FirstOrDefault(s => s.SupplierId == procurement.RecommendedSupplierID)?.SupplierName ?? "N/A";
+                    supplierLabel.Text = supplier;
                 }
             });
         }
@@ -119,28 +124,28 @@ namespace MyProcurementApp.UserSection
                 int procurementID = Convert.ToInt32(e.CommandArgument);
                 (DropDownList ddlOfficer, _)= sender.FindUIComponent<DropDownList, Button>("ddlOfficer");
                 (DropDownList ddlType, _) = sender.FindUIComponent<DropDownList, Button>("ddlType");
-                (TextBox costCenterTB, _) = sender.FindUIComponent<TextBox, Button>("txtCostCentre");
+                (DropDownList costCenterDD, _) = sender.FindUIComponent<DropDownList, Button>("ddlCostCentre");
                 (TextBox descriptionTB, _) = sender.FindUIComponent<TextBox, Button>("txtDescription");
                 (TextBox lotTB, _) = sender.FindUIComponent<TextBox, Button>("txtLot");
                 (TextBox estimateTB, _) = sender.FindUIComponent<TextBox, Button>("txtEstimate");
                 (TextBox requestDateTB, _) = sender.FindUIComponent<TextBox, Button>("txtRequestDate");
                 (TextBox publicationDateTB, _) = sender.FindUIComponent<TextBox, Button>("txtPublicationDate");
                 (TextBox contractValueTB, _) = sender.FindUIComponent<TextBox, Button>("txtContractValue");
-                (TextBox supplierTB, _) = sender.FindUIComponent<TextBox, Button>("txtSupplier");
+                (DropDownList supplierDD, _) = sender.FindUIComponent<DropDownList,Button>("ddlSupplier");
 
                 var editedProcurement = new ProcurementModel()
                 {
                     ProcurementTrackingId = procurementID,
                     ProcurementTypeId = ddlType.SelectedValue.ValidateString(this).ConvertStringTo<int>(),
                     ProcurementOfficer = ddlOfficer.SelectedValue.ValidateString(this).ConvertStringTo<int>(),
-                    
+                    CostCentreId = costCenterDD.SelectedValue.ValidateString(this).ConvertStringTo<int>(),
                     Description = descriptionTB.Text.ValidateString(this),
                     LotProcurement = lotTB.Text.ValidateString(this),
-                    ComparativeEstimate = estimateTB.Text.ValidateString(this).Replace("$","").ConvertStringTo<decimal>(),
+                    ComparativeEstimate = estimateTB.Text.ValidateString(this).Replace("$", "").ConvertStringTo<decimal>(),
                     DateOfRequest = requestDateTB.Text.ValidateString(this).StringToDate(this),
                     PublicationDate = publicationDateTB.Text.ValidateString(this).StringToDate(this),
-                    ActualContractValue = contractValueTB.Text.ValidateString(this).Replace("$","").ConvertStringTo<decimal>(),
-                    
+                    ActualContractValue = contractValueTB.Text.ValidateString(this).Replace("$", "").ConvertStringTo<decimal>(),
+                    RecommendedSupplierID = supplierDD.SelectedValue.ValidateString(this).ConvertStringTo<int>()
                 };
 
                 string isComplete = await procurementDB.UpdateProcurement("updateProcurementTrackingById", editedProcurement);
