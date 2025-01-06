@@ -81,10 +81,10 @@ namespace DatabaseCodeBase.DatabaseCode
             string output = string.Empty;
             try
             {
-                using(SqlConnection conn = new SqlConnection(_ConnectionString))
+                using (SqlConnection conn = new SqlConnection(_ConnectionString))
                 {
                     await conn.OpenAsync();
-                    using(SqlCommand cmd = new SqlCommand(storedProcedure,conn))
+                    using (SqlCommand cmd = new SqlCommand(storedProcedure, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@ProcurementTrackingId", SqlDbType.Int) { Value = procurement.ProcurementTrackingId });
@@ -106,11 +106,11 @@ namespace DatabaseCodeBase.DatabaseCode
                     }
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 OnQueryFail($"Error {ex.Message}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 OnQueryFail($"Error {ex.Message}");
             }
@@ -182,8 +182,7 @@ namespace DatabaseCodeBase.DatabaseCode
 
         public async Task<List<ProcurementModel>> ReadByProcurementID(string storedProcedure, int iD, string selectedfield)
         {
-            var procurmentList = new List<ProcurementModel>();
-            var procurement = new ProcurementModel();
+            var procurementList = new List<ProcurementModel>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(_ConnectionString))
@@ -194,39 +193,41 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter(selectedfield, SqlDbType.Int) { Value = iD });
                         var reader = await cmd.ExecuteReaderAsync();
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
-                            procurement.ProcurementTrackingId = (int)reader["ProcurementTrackingId"];
-                            procurement.ProcurementOfficer = (int)reader["Procurement Officer"];
-                            procurement.UserId = (int)reader["UserId"];
-                            procurement.CostCentreId = (int)reader["CostCentreId"];
-                            procurement.DateOfRequest = (DateTime)reader["Date of Request"];
-                            procurement.MediumUsedToSendRequest = reader["Medium used to send request"].ToString();
-                            procurement.Description = reader["Description"].ToString();
-                            procurement.LotProcurement = reader["Lot Procurement"].ToString();
-                            procurement.ComparativeEstimate = (decimal)reader["Comparative Estimate"];
-                            procurement.ProcurementTypeId = (int)reader["ProcurementTypeId"];
-                            procurement.FitAndReadyDate = (DateTime)reader["Fit and Ready Date"];
-                            procurement.PublicationDate = (DateTime)reader["Publication Date"];
-                            procurement.DateTenderClosed = (DateTime)reader["Date Tender Closed"];
-                            procurement.DateEvaluationCompleted = (DateTime)reader["Date Evaluation Completed"];
-                            procurement.DateReportSentToPPM = (DateTime)reader["Date Report sent to PPM"];
-                            procurement.ResubmissionDateToPPM = (DateTime)reader["Resubmission Date to PPM (If Applicable)"];
-                            procurement.DateReportSentToPC = (DateTime)reader["Date report sent to PC"];
-                            procurement.PCApprovalDate = (DateTime)reader["PC Approval Date"];
-                            procurement.DateApprovedByManagingDirector = (DateTime)reader["Date approved by Managing Director"];
-                            procurement.DateReceivedApprovedSubmission = (DateTime)reader["Date Received Approved Submission"];
-                            procurement.DateContractReceivedFromCostCentre = (DateTime)reader["Date Contract received from Cost Centre (if Required)"];
-                            procurement.DateContractSubmittedToLegal = (DateTime)reader["Date Contract Submitted to Legal"];
-                            procurement.DateContractApproved = (DateTime)reader["Date Contract Approved (if Required)"];
-                            procurement.RecommendedSupplierID = (int)reader["SupplierId"];
-                            procurement.ActualContractValue = (decimal)reader["Actual Contract Value"];
-                            procurement.ExternalApproval = reader["External Approval (Yes/No)"].ToString();
-                            procurement.DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"];
-                            procurement.Status = reader["Status"].ToString();
-                            procurement.Comments = reader["Comments"].ToString();
-
-                            procurmentList.Add(procurement);
+                            var procurement = new ProcurementModel()
+                            {
+                                ProcurementTrackingId = (int)reader["ProcurementTrackingId"],
+                                ProcurementOfficer = (int)reader["Procurement Officer"],
+                                UserId = (int)reader["UserId"],
+                                CostCentreId = (int)reader["CostCentreId"],
+                                DateOfRequest = (DateTime)reader["Date of Request"],
+                                MediumUsedToSendRequest = reader["Medium used to send request"].ToString(),
+                                Description = reader["Description"].ToString(),
+                                LotProcurement = reader["Lot Procurement"].ToString(),
+                                ComparativeEstimate = (decimal)reader["Comparative Estimate"],
+                                ProcurementTypeId = (int)reader["ProcurementTypeId"],
+                                FitAndReadyDate = (DateTime)reader["Fit and Ready Date"],
+                                PublicationDate = (DateTime)reader["Publication Date"],
+                                DateTenderClosed = (DateTime)reader["Date Tender Closed"],
+                                DateEvaluationCompleted = (DateTime)reader["Date Evaluation Completed"],
+                                DateReportSentToPPM = (DateTime)reader["Date Report sent to PPM"],
+                                ResubmissionDateToPPM = (DateTime)reader["Resubmission Date to PPM (If Applicable)"],
+                                DateReportSentToPC = (DateTime)reader["Date report sent to PC"],
+                                PCApprovalDate = (DateTime)reader["PC Approval Date"],
+                                DateApprovedByManagingDirector = (DateTime)reader["Date approved by Managing Director"],
+                                DateReceivedApprovedSubmission = (DateTime)reader["Date Received Approved Submission"],
+                                DateContractReceivedFromCostCentre = (DateTime)reader["Date Contract received from Cost Centre (if Required)"],
+                                DateContractSubmittedToLegal = (DateTime)reader["Date Contract Submitted to Legal"],
+                                DateContractApproved = (DateTime)reader["Date Contract Approved (if Required)"],
+                                RecommendedSupplierID = (int)reader["SupplierId"],
+                                ActualContractValue = (decimal)reader["Actual Contract Value"],
+                                ExternalApproval = reader["External Approval (Yes/No)"].ToString(),
+                                DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"],
+                                Status = reader["Status"].ToString(),
+                                Comments = reader["Comments"].ToString()
+                            };
+                            procurementList.Add(procurement);
                         }
                     }
                 }
@@ -239,7 +240,7 @@ namespace DatabaseCodeBase.DatabaseCode
             {
                 OnQueryFail($"Unexpected Error: {ex.Message}");
             }
-            return procurmentList;
+            return procurementList;
         }
     }
 }
