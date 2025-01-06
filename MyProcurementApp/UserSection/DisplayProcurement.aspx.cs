@@ -32,7 +32,6 @@ namespace MyProcurementApp.UserSection
                 gvProcurements.BindDropDownFromGridView<UserModel>("ddlOfficer", "Name", "UserId", "[Select Officer]", UserList);
                 gvProcurements.BindDropDownFromGridView<SupplierModel>("ddlSupplier", "SupplierName", "SupplierId", "[Select Supplier]", SupplierList);
                 gvProcurements.BindDropDownFromGridView<CostCenterModel>("ddlCostCentre", "CostCenterName", "CostCenterId", "[Select CostCenrer]", CostCenterList);
-                
             }
         }
 
@@ -56,20 +55,16 @@ namespace MyProcurementApp.UserSection
                     var lblSupplier = e.Row.FindControl("lblSupplier") as Label;
 
                     if (lblOfficer != null)
-                         officerName = UserList.FirstOrDefault(u => u.UserId == procurement.ProcurementOfficer)?.Name ?? "N/A";
-                         lblOfficer.Text = officerName;
-                    if (lblUser != null)
-                        userName = usersList.FirstOrDefault(u => u.UserId == procurement.UserId)?.Name ?? "N/A";
-                        lblUser.Text = userName;
+                         lblOfficer.Text = UserList.FirstOrDefault(u => u.UserId == procurement.ProcurementOfficer)?.Name ?? "N/A";
+                    if (lblUser != null) 
+                        lblUser.Text = usersList.FirstOrDefault(u => u.UserId == procurement.UserId)?.Name ?? "N/A";
                     if (lblCostCentre != null)
                         costCenterName = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
                         lblCostCentre.Text = costCenterName;
                     if (lblType != null)
-                        type = ProcurementTypeList.FirstOrDefault(p => p.ID == procurement.ProcurementTypeId)?.Type ?? "N/A";
-                        lblType.Text = type;
+                        lblType.Text = ProcurementTypeList.FirstOrDefault(p => p.ID == procurement.ProcurementTypeId)?.Type ?? "N/A"; ;
                     if (lblSupplier != null)
-                        supplierName = SupplierList.FirstOrDefault(s => s.SupplierId == procurement.RecommendedSupplierID)?.SupplierName ?? "N/A";
-                        lblSupplier.Text = supplierName;
+                        lblSupplier.Text = SupplierList.FirstOrDefault(s => s.SupplierId == procurement.RecommendedSupplierID)?.SupplierName ?? "N/A";  
                 }
             }
         }
@@ -96,11 +91,15 @@ namespace MyProcurementApp.UserSection
                 {
                     var procurementID = Convert.ToInt32(e.CommandArgument);
                     var pList = await procurementDB.ReadByProcurementID("selectProcurementTrackingById", procurementID, "@ProcurementTrackingId");
+                    (var officer, _) = sender.FindUIComponent<Label, Button>("lblOfficer");
+                    (var costCenter, _) = sender.FindUIComponent<Label, Button>("lblCostCentre");
+                    (var supplier, _) = sender.FindUIComponent<Label, Button>("lblSupplier");
+                    (var userName, _) = sender.FindUIComponent<Label, Button>("lblUser");
                     Aprocurement = pList.FirstOrDefault();
-                    Aprocurement.CCName = costCenterName;
-                    Aprocurement.OfficerName = officerName;
-                    Aprocurement.SupplierName = supplierName;
-                    Aprocurement.UserName = userName;
+                    Aprocurement.CCName = costCenter.Text;
+                    Aprocurement.OfficerName = officer.Text;
+                    Aprocurement.SupplierName = supplier.Text;
+                    Aprocurement.UserName = userName.Text;
                     var pDF = new ProcurementPDF();
                     await pDF.CreatePDF(Aprocurement, this);
                 }
