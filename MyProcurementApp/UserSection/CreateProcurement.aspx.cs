@@ -69,9 +69,10 @@ namespace MyProcurementApp.UserSection
             var dateReportSentToPC = txtDateReportSentToPC.Text.ValidateString(this).StringToDate(this);
             var pCApprovalDate = txtPCApprovalDate.Text.ValidateString(this).StringToDate(this);
             var dateApprovedByManagingDirector = txtDateApprovedByManagingDirector.Text.ValidateString(this).StringToDate(this);
-            var externalApproval = txtExternalApproval.Text.ValidateString(this);
+            var externalApproval = ddlExternalApproval.SelectedItem.Text.ValidateString(this);
             var contractDateApproval = txtDateApproved.Text.ValidateString(this).StringToDate(this);
             var comments = txtComments.Text.ValidateString(this);
+            var status = ddlStatus.SelectedItem.Text.ValidateString(this);
 
             var procurement = new ProcurementModel()
             {
@@ -97,7 +98,7 @@ namespace MyProcurementApp.UserSection
                 DateApprovedByManagingDirector = dateApprovedByManagingDirector,
                 ExternalApproval = externalApproval,
                 DateContractApproved = contractDateApproval,
-                Status = "Pending Approval",
+                Status = status,
                 Comments = comments,
             };
 

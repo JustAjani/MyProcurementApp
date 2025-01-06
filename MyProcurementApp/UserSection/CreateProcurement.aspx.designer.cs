@@ -186,13 +186,22 @@ namespace MyProcurementApp.UserSection
         protected global::System.Web.UI.WebControls.TextBox txtDateApprovedByManagingDirector;
 
         /// <summary>
-        /// txtExternalApproval control.
+        /// ddlExternalApproval control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtExternalApproval;
+        protected global::System.Web.UI.WebControls.DropDownList ddlExternalApproval;
+
+        /// <summary>
+        /// ddlStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
 
         /// <summary>
         /// txtDateApproved control.

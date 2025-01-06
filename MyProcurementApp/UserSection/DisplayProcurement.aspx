@@ -73,16 +73,22 @@
                 CssClass="table table-hover" 
                 AutoGenerateColumns="false"
                 AllowPaging="true"
-                PageSize="10">
+                PageSize="10"
+                OnRowDataBound="gvProcurements_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="ProcurementTrackingId" HeaderText="ID" Visible="false" />
+                    
+                    <asp:TemplateField HeaderText="Name">
+                        <ItemTemplate>
+                             <asp:Label ID="lblUser" runat="server" CssClass="text-label"></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
                     <asp:TemplateField HeaderText="Officer">
                         <ItemTemplate>
                             <asp:Label ID="lblOfficer" runat="server" CssClass="text-label"></asp:Label>
-                            <asp:Label ID="lblUser" runat="server" CssClass="text-label" Visible="false"></asp:Label>
                             <asp:DropDownList ID="ddlOfficer" runat="server" 
                                 CssClass="form-select"
-                                DataValueField="ProcurementOfficer"
                                 AutoPostBack="true">
                             </asp:DropDownList>
                         </ItemTemplate>
@@ -93,7 +99,6 @@
                             <asp:Label ID="lblType" runat="server" CssClass="text-label"></asp:Label> 
                             <asp:DropDownList ID="ddlType" runat="server" 
                                 CssClass="form-select"
-                                DataValueField="ProcurementTypeId"
                                 AutoPostBack="true">
                             </asp:DropDownList>
                         </ItemTemplate>
@@ -184,7 +189,6 @@
 
                     <asp:TemplateField HeaderText="Status">
                         <ItemTemplate>
-
                              <asp:TextBox ID="txtStatus" runat="server" 
                                 CssClass="form-control"
                                 Text='<%# Eval("Status") %>' >

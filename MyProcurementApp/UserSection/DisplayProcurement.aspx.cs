@@ -19,12 +19,12 @@ namespace MyProcurementApp.UserSection
     public partial class DisplayProcurement : PageUtil
     {
         int userID;
-        string officer, type, costCenterName, supplier, userName;
+        string officerName, type, costCenterName, supplierName, userName;
+        List<UserModel> usersList;
         protected async Task Page_Load(object sender, EventArgs e)
         {
             userID = Session["TransferID"].ToString().ConvertStringTo<int>();
             await InitializeDependecy();
-            LoadLabels();
             if (!IsPostBack)
             {
                 gvProcurements.BindGridData<ProcurementModel>(ProcurementList);
@@ -32,6 +32,7 @@ namespace MyProcurementApp.UserSection
                 gvProcurements.BindDropDownFromGridView<UserModel>("ddlOfficer", "Name", "UserId", "[Select Officer]", UserList);
                 gvProcurements.BindDropDownFromGridView<SupplierModel>("ddlSupplier", "SupplierName", "SupplierId", "[Select Supplier]", SupplierList);
                 gvProcurements.BindDropDownFromGridView<CostCenterModel>("ddlCostCentre", "CostCenterName", "CostCenterId", "[Select CostCenrer]", CostCenterList);
+                
             }
         }
 
@@ -40,60 +41,38 @@ namespace MyProcurementApp.UserSection
             await Page_Load(this,e);
         }
 
-        protected void LoadLabels()
+        protected void gvProcurements_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            gvProcurements.FindDataWithGrid<Label>("lblOfficer", officerLabel =>
+            if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
+                var procurement = e.Row.DataItem as ProcurementModel;
+
                 if (procurement != null)
                 {
-                    officer = UserList.FirstOrDefault(u => u.UserId == procurement.ProcurementOfficer)?.Name ?? "N/A";
-                    officerLabel.Text = officer;
-                }
-            });
+                    var lblOfficer = e.Row.FindControl("lblOfficer") as Label;
+                    var lblUser = e.Row.FindControl("lblUser") as Label;
+                    var lblCostCentre = e.Row.FindControl("lblCostCentre") as Label;
+                    var lblType = e.Row.FindControl("lblType") as Label;
+                    var lblSupplier = e.Row.FindControl("lblSupplier") as Label;
 
-            gvProcurements.FindDataWithGrid<Label>("lblType", typeLabel =>
-            {
-                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
-                if (procurement != null)
-                {
-                    type = ProcurementTypeList.FirstOrDefault(p => p.ID == procurement.ProcurementTypeId)?.Type ?? "N/A";
-                    typeLabel.Text = type;
+                    if (lblOfficer != null)
+                         officerName = UserList.FirstOrDefault(u => u.UserId == procurement.ProcurementOfficer)?.Name ?? "N/A";
+                         lblOfficer.Text = officerName;
+                    if (lblUser != null)
+                        userName = usersList.FirstOrDefault(u => u.UserId == procurement.UserId)?.Name ?? "N/A";
+                        lblUser.Text = userName;
+                    if (lblCostCentre != null)
+                        costCenterName = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
+                        lblCostCentre.Text = costCenterName;
+                    if (lblType != null)
+                        type = ProcurementTypeList.FirstOrDefault(p => p.ID == procurement.ProcurementTypeId)?.Type ?? "N/A";
+                        lblType.Text = type;
+                    if (lblSupplier != null)
+                        supplierName = SupplierList.FirstOrDefault(s => s.SupplierId == procurement.RecommendedSupplierID)?.SupplierName ?? "N/A";
+                        lblSupplier.Text = supplierName;
                 }
-            });
-
-            gvProcurements.FindDataWithGrid<Label>("lblCostCentre", costCenterLabel =>
-            {
-                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
-                if (procurement != null)
-                {
-                    costCenterName = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
-                    costCenterLabel.Text = costCenterName;
-                }
-            });
-
-            gvProcurements.FindDataWithGrid<Label>("lblSupplier", supplierLabel =>
-            {
-                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
-                if (procurement != null)
-                {
-                    supplier = SupplierList.FirstOrDefault(s => s.SupplierId == procurement.RecommendedSupplierID)?.SupplierName ?? "N/A";
-                    supplierLabel.Text = supplier;
-                }
-            });
-
-            gvProcurements.FindDataWithGrid<Label>("lblUser", userLabel =>
-            {
-                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
-                if (procurement != null)
-                {
-                    userName = UserList.FirstOrDefault(u => u.UserId == procurement.UserId)?.Name ?? "N/A";
-                    userLabel.Text = userName;
-                }
-            });
-
+            }
         }
-
 
 
         protected override async Task InitializeDependecy()
@@ -102,12 +81,12 @@ namespace MyProcurementApp.UserSection
             (userDB, procurementDB, procurementTypeDB) = container.InitializeDependency<UserDB, ProcurementDB, ProcurementTypeDB>();
             (costCenterDB, supplierDB) = container.InitializeDependency<CostCenterDB, SupplierDB>();
             UserList = await userDB.ReadUser("selectProcurementOfficer");
+            usersList = await userDB.ReadUser("selectAllUsers");
             ProcurementList = await procurementDB.ReadByProcurementID("selectProcurementTrackingByUserId", userID, "@UserId");
             ProcurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
             CostCenterList = await costCenterDB.ReadCostCenter("selectCostCentre");
             SupplierList = await supplierDB.ReadSupplier("selectAllSuppliers");        
         }
-
 
         protected async void OnViewProcurement(object sender, CommandEventArgs e)
         {
@@ -119,8 +98,8 @@ namespace MyProcurementApp.UserSection
                     var pList = await procurementDB.ReadByProcurementID("selectProcurementTrackingById", procurementID, "@ProcurementTrackingId");
                     Aprocurement = pList.FirstOrDefault();
                     Aprocurement.CCName = costCenterName;
-                    Aprocurement.OfficerName = officer;
-                    Aprocurement.SupplierName = supplier;
+                    Aprocurement.OfficerName = officerName;
+                    Aprocurement.SupplierName = supplierName;
                     Aprocurement.UserName = userName;
                     var pDF = new ProcurementPDF();
                     await pDF.CreatePDF(Aprocurement, this);
@@ -134,10 +113,10 @@ namespace MyProcurementApp.UserSection
 
         protected async void OnEditProcurement(object sender, CommandEventArgs e)
         {
-            if(e.CommandName == "EditProcurement")
+            if (e.CommandName == "EditProcurement")
             {
                 int procurementID = Convert.ToInt32(e.CommandArgument);
-                (DropDownList ddlOfficer, _)= sender.FindUIComponent<DropDownList, Button>("ddlOfficer");
+                (DropDownList ddlOfficer, _) = sender.FindUIComponent<DropDownList, Button>("ddlOfficer");
                 (DropDownList ddlType, _) = sender.FindUIComponent<DropDownList, Button>("ddlType");
                 (DropDownList costCenterDD, _) = sender.FindUIComponent<DropDownList, Button>("ddlCostCentre");
                 (TextBox descriptionTB, _) = sender.FindUIComponent<TextBox, Button>("txtDescription");
@@ -146,7 +125,7 @@ namespace MyProcurementApp.UserSection
                 (TextBox requestDateTB, _) = sender.FindUIComponent<TextBox, Button>("txtRequestDate");
                 (TextBox publicationDateTB, _) = sender.FindUIComponent<TextBox, Button>("txtPublicationDate");
                 (TextBox contractValueTB, _) = sender.FindUIComponent<TextBox, Button>("txtContractValue");
-                (DropDownList supplierDD, _) = sender.FindUIComponent<DropDownList,Button>("ddlSupplier");
+                (DropDownList supplierDD, _) = sender.FindUIComponent<DropDownList, Button>("ddlSupplier");
 
                 var editedProcurement = new ProcurementModel()
                 {
@@ -166,6 +145,8 @@ namespace MyProcurementApp.UserSection
                 string isComplete = await procurementDB.UpdateProcurement("updateProcurementTrackingById", editedProcurement);
                 isComplete.AlertSuccessORFail(this);
             }
+
+
         }
     }
 }

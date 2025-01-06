@@ -180,10 +180,26 @@
                             <label class="form-label">Managing Director Approval Date</label>
                             <asp:TextBox ID="txtDateApprovedByManagingDirector" runat="server" CssClass="form-control" TextMode="Date" />
                         </div>
+
+                       <div class="col-md-6">
+                            <label class="form-label" for="ddlExternalApproval">External Approval</label>
+                            <asp:DropDownList ID="ddlExternalApproval" runat="server" CssClass="form-control">
+                                <asp:ListItem Text="Select an option" Value="" />
+                                <asp:ListItem Text="Yes" Value="Yes" />
+                                <asp:ListItem Text="No" Value="No" />
+                            </asp:DropDownList>
+                        </div>
+     
                         <div class="col-md-6">
-                            <label class="form-label">External Approval</label>
-                            <asp:TextBox ID="txtExternalApproval" runat="server" CssClass="form-control" />
-                        </div> 
+                            <label class="form-label" for="ddlStatus">Status</label>
+                            <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control">
+                                <asp:ListItem Text="Select Status" Value="" />
+                                <asp:ListItem Text="Pending" Value="Pending" />
+                                <asp:ListItem Text="Approved" Value="Approved" />
+                                <asp:ListItem Text="Rejected" Value="Rejected" />
+                            </asp:DropDownList>
+                        </div>
+
                         <div class="col-md-6">
                             <label class="form-label">Contract Date Approval</label>
                             <asp:TextBox ID="txtDateApproved" runat="server" CssClass="form-control" TextMode="Date"/>

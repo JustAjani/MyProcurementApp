@@ -157,7 +157,7 @@ namespace DatabaseCodeBase.DatabaseCode
                                 DateContractReceivedFromCostCentre = (DateTime)reader["Date Contract received from Cost Centre (if Required)"],
                                 DateContractSubmittedToLegal = (DateTime)reader["Date Contract Submitted to Legal"],
                                 DateContractApproved = (DateTime)reader["Date Contract Approved (if Required)"],
-                                RecommendedSupplierID = (int)reader["Recommended Supplier"],
+                                RecommendedSupplierID = (int)reader["SupplierId"],
                                 ActualContractValue = (decimal)reader["Actual Contract Value"],
                                 ExternalApproval = (string)reader["External Approval (Yes/No)"],
                                 DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"],
@@ -194,7 +194,7 @@ namespace DatabaseCodeBase.DatabaseCode
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter(selectedfield, SqlDbType.Int) { Value = iD });
                         var reader = await cmd.ExecuteReaderAsync();
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             procurement.ProcurementTrackingId = (int)reader["ProcurementTrackingId"];
                             procurement.ProcurementOfficer = (int)reader["Procurement Officer"];
