@@ -219,7 +219,7 @@ namespace DatabaseCodeBase.DatabaseCode
                             procurement.DateContractReceivedFromCostCentre = (DateTime)reader["Date Contract received from Cost Centre (if Required)"];
                             procurement.DateContractSubmittedToLegal = (DateTime)reader["Date Contract Submitted to Legal"];
                             procurement.DateContractApproved = (DateTime)reader["Date Contract Approved (if Required)"];
-                            procurement.RecommendedSupplierID = (int)reader["Recommended Supplier"];
+                            procurement.RecommendedSupplierID = (int)reader["SupplierId"];
                             procurement.ActualContractValue = (decimal)reader["Actual Contract Value"];
                             procurement.ExternalApproval = reader["External Approval (Yes/No)"].ToString();
                             procurement.DateSentToPurchasingUnit = (DateTime)reader["Date sent to Purchasing Unit"];

@@ -25,6 +25,7 @@ namespace MyProcurementApp
             builder.RegisterInstance(new RoleDB(dbConfigString)).As<RoleDB>().SingleInstance();
             builder.RegisterInstance(new ProcurementDB(dbConfigString)).As<ProcurementDB>().SingleInstance();
             builder.RegisterInstance(new CostCenterDB(dbConfigString)).As<CostCenterDB>().SingleInstance();
+            builder.RegisterInstance(new SupplierDB(dbConfigString)).As<SupplierDB>().SingleInstance();
 
             // Build the container
             var container = builder.Build();

@@ -93,8 +93,15 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label required">Medium Used</label>
-                            <asp:TextBox ID="txtMediumUsed" runat="server" CssClass="form-control" Required="true" />
+                            <asp:DropDownList ID="ddlMediumUsed" runat="server" CssClass="form-select" AppendDataBoundItems="true" Required="true">
+                                <asp:ListItem Text="Select a medium" Value="" />
+                                <asp:ListItem Text="Email" Value="Email" />
+                                <asp:ListItem Text="Phone" Value="Phone" />
+                                <asp:ListItem Text="In-Person" Value="InPerson" />
+                                <asp:ListItem Text="Other" Value="Other" />
+                            </asp:DropDownList>
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label required">Lot Procurement</label>
                             <asp:TextBox ID="txtLotProcurement" runat="server" CssClass="form-control" Required="true" />
@@ -119,8 +126,12 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Recommended Supplier</label>
-                            <asp:TextBox ID="txtRecommendedSupplier" runat="server" CssClass="form-control" />
+                            <asp:DropDownList ID="ddlRecommendedSupplier" runat="server" CssClass="form-select" AppendDataBoundItems="true">
+                                
+                            </asp:DropDownList>
                         </div>
+
+
                     </div>
                 </div>
 

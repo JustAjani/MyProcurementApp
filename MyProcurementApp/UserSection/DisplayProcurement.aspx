@@ -55,6 +55,12 @@
         .currency-field {
             width: 120px;
         }
+
+        .text-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -70,9 +76,9 @@
                 PageSize="10">
                 <Columns>
                     <asp:BoundField DataField="ProcurementTrackingId" HeaderText="ID" Visible="false" />
-                    
                     <asp:TemplateField HeaderText="Officer">
                         <ItemTemplate>
+                            <asp:Label ID="lblOfficer" runat="server" CssClass="text-label"></asp:Label>
                             <asp:DropDownList ID="ddlOfficer" runat="server" 
                                 CssClass="form-select"
                                 DataValueField="ProcurementOfficer"
@@ -83,6 +89,7 @@
 
                     <asp:TemplateField HeaderText="Type">
                         <ItemTemplate>
+                            <asp:Label ID="lblType" runat="server" CssClass="text-label"></asp:Label> 
                             <asp:DropDownList ID="ddlType" runat="server" 
                                 CssClass="form-select"
                                 DataValueField="ProcurementTypeId"
@@ -93,10 +100,11 @@
 
                     <asp:TemplateField HeaderText="Cost Centre">
                         <ItemTemplate>
-                            <asp:TextBox ID="txtCostCentre" runat="server" 
-                                CssClass="form-control"
-                                Text='<%# Eval("CostCentre") %>'>
-                            </asp:TextBox>
+                            <asp:Label ID="lblCostCentre" runat="server" CssClass="text-label"></asp:Label>
+                            <asp:DropDownList ID="ddlCostCentre" runat="server" 
+                                CssClass="form-select"
+                                AutoPostBack="true">
+                            </asp:DropDownList>
                         </ItemTemplate>
                     </asp:TemplateField>
 
@@ -156,10 +164,11 @@
 
                     <asp:TemplateField HeaderText="Supplier">
                         <ItemTemplate>
-                            <asp:TextBox ID="txtSupplier" runat="server" 
-                                CssClass="form-control"
-                                Text='<%# Eval("RecommendedSupplier") %>'>
-                            </asp:TextBox>
+                            <asp:Label ID="lblSupplier" runat="server" CssClass="text-label"></asp:Label>
+                            <asp:DropDownList ID="ddlSupplier" runat="server" 
+                                CssClass="form-select"
+                                AutoPostBack="true">
+                            </asp:DropDownList>
                         </ItemTemplate>
                     </asp:TemplateField>
                     
@@ -174,6 +183,7 @@
 
                     <asp:TemplateField HeaderText="Status">
                         <ItemTemplate>
+
                              <asp:TextBox ID="txtStatus" runat="server" 
                                 CssClass="form-control"
                                 Text='<%# Eval("Status") %>' >

@@ -57,5 +57,14 @@ namespace MyProcurementApp.AdminSection
             Response.Redirect("AdminReadCostCentre.aspx");
         }
 
+        protected void RedirectToCreateSupplier(object sender, EventArgs e)
+        {
+            Response.Redirect("AdminCreateSupplier.aspx");
+        }
+
+        protected void RedirectToManageSuppliers(object sender, EventArgs e)
+        {
+            Response.Redirect("AdminReadSupplier.aspx");
+        }
     }
 }

@@ -176,6 +176,20 @@
                             <p>View, edit, and create Cost Centers</p>
                             <asp:Button ID="btnManageCostCenters" runat="server" Text="Manage Cost Centers" CssClass="btn btn-primary" OnClick="RedirectToManageCostCenters" />
                         </div>
+
+                        <div class="quick-action-card">
+                            <div class="quick-action-icon">➕</div>
+                            <h4>Create Supplier</h4>
+                            <p>Add a new supplier to the system</p>
+                            <asp:Button ID="btnCreateSupplier" runat="server" Text="Create Supplier" CssClass="btn btn-primary" OnClick="RedirectToCreateSupplier" />
+                        </div>
+
+                        <div class="quick-action-card">
+                            <div class="quick-action-icon">📜</div>
+                            <h4>Manage Suppliers</h4>
+                            <p>View, edit, or manage existing suppliers</p>
+                            <asp:Button ID="btnManageSuppliers" runat="server" Text="Manage Suppliers" CssClass="btn btn-primary" OnClick="RedirectToManageSuppliers" />
+                        <%--</div>--%>
                     </div>
                 </div>
             </div>

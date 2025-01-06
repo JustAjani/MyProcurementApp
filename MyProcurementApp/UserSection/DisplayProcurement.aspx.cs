@@ -23,11 +23,14 @@ namespace MyProcurementApp.UserSection
         {
             userID = Session["TransferID"].ToString().ConvertStringTo<int>();
             await InitializeDependecy();
+            LoadLabels();
             if (!IsPostBack)
             {
                 gvProcurements.BindGridData<ProcurementModel>(ProcurementList);
                 gvProcurements.BindDropDownFromGridView<ProcurementTypeModel>("ddlType","Type","ID", "[Select Procurment Type]", ProcurementTypeList);
                 gvProcurements.BindDropDownFromGridView<UserModel>("ddlOfficer", "Name", "UserId", "[Select Officer]", UserList);
+                gvProcurements.BindDropDownFromGridView<SupplierModel>("ddlSupplier", "SupplierName", "SupplierId", "[Select Supplier]", SupplierList);
+                gvProcurements.BindDropDownFromGridView<CostCenterModel>("ddlCostCentre", "CostCenterName", "CostCenterId", "[Select CostCenrer]", CostCenterList);
             }
         }
 
@@ -36,13 +39,57 @@ namespace MyProcurementApp.UserSection
             await Page_Load(this,e);
         }
 
+        protected void LoadLabels()
+        {
+            gvProcurements.FindDataWithGrid<Label>("lblOfficer", officerLabel =>
+            {
+                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
+                if (procurement != null)
+                {
+                    officerLabel.Text = UserList.FirstOrDefault(u => u.UserId == procurement.ProcurementOfficer)?.Name ?? "N/A";
+                }
+            });
+
+            gvProcurements.FindDataWithGrid<Label>("lblType", typeLabel =>
+            {
+                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
+                if (procurement != null)
+                {
+                    typeLabel.Text = ProcurementTypeList.FirstOrDefault(p => p.ID == procurement.ProcurementTypeId)?.Type ?? "N/A";
+                }
+            });
+
+            gvProcurements.FindDataWithGrid<Label>("lblCostCentre", costCenterLabel =>
+            {
+                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
+                if (procurement != null)
+                {
+                    costCenterLabel.Text = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
+                }
+            });
+
+            gvProcurements.FindDataWithGrid<Label>("lblSupplier", supplierLabel =>
+            {
+                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
+                if (procurement != null)
+                {
+                    supplierLabel.Text = SupplierList.FirstOrDefault(s => s.SupplierId == procurement.RecommendedSupplierID)?.SupplierName ?? "N/A";
+                }
+            });
+        }
+
+
+
         protected override async Task InitializeDependecy()
         {
             container = (Autofac.IContainer)Application["AutofacContainer"];
             (userDB, procurementDB, procurementTypeDB) = container.InitializeDependency<UserDB, ProcurementDB, ProcurementTypeDB>();
-            UserList = await userDB.ReadUser("selectUsersByRoleId");
+            (costCenterDB, supplierDB) = container.InitializeDependency<CostCenterDB, SupplierDB>();
+            UserList = await userDB.ReadUser("selectProcurementOfficer");
             ProcurementList = await procurementDB.ReadByProcurementID("selectProcurementTrackingByUserId", userID, "@UserId");
             ProcurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
+            CostCenterList = await costCenterDB.ReadCostCenter("selectCostCentre");
+            SupplierList = await supplierDB.ReadSupplier("selectAllSuppliers");        
         }
 
 

@@ -24,9 +24,10 @@ namespace MyProcurementApp.UserSection
             userID = Session["TransferID"].ToString().ConvertStringTo<int>();
             if (!IsPostBack)
             {
-                ddlOfficer.BindDropDownData<UserModel>("Name", "UserId", "[Select Procurement Type]", UserList);
+                ddlOfficer.BindDropDownData<UserModel>("Name", "UserId", "[Select Officer]", UserList);
                 ddlProcurementType.BindDropDownData<ProcurementTypeModel>("Type", "ID", "Select procurement Type", ProcurementTypeList);
                 ddlCostCentre.BindDropDownData<CostCenterModel>("CostCenterName", "CostCenterId", "Select Cost Center", CostCenterList);
+                ddlRecommendedSupplier.BindDropDownData<SupplierModel>("SupplierName", "SupplierId", "Select Supplier", SupplierList);
             }
         }
 
@@ -39,12 +40,13 @@ namespace MyProcurementApp.UserSection
         {
             container = (IContainer)Application["AutofacContainer"];
             (procurementDB, userDB, procurementTypeDB) = container.InitializeDependency<ProcurementDB, UserDB, ProcurementTypeDB>();
-            costCenterDB = container.Resolve<CostCenterDB>();
+            (costCenterDB, supplierDB) = container.InitializeDependency<CostCenterDB, SupplierDB>();
             ProcurementTypeList = await procurementTypeDB.ReadProcurementType("selectProcurementTypes");
-            UserList = await userDB.ReadUser("selectUsersByRoleId");
+            UserList = await userDB.ReadUser("selectProcurementOfficer");
             userName = UserList.Where(u => u.UserId == userID).Select(n => n.Name).FirstOrDefault();
             roleID = UserList.Where(u => u.UserId == userID).Select(r => r.RoleID).FirstOrDefault();
             CostCenterList = await costCenterDB.ReadCostCenter("selectCostCentre");
+            SupplierList = await supplierDB.ReadSupplier("selectAllSuppliers");
         }
 
         protected async void OnSubmit(object sender, EventArgs e)
@@ -52,12 +54,12 @@ namespace MyProcurementApp.UserSection
             var officer = ddlOfficer.SelectedValue.ValidateString(this).ConvertStringTo<int>();
             var costCenterid = ddlCostCentre.SelectedValue.ValidateString(this).ConvertStringTo<int>();
             var description = txtDescription.Text.ValidateString(this);
-            var mediumUsed = txtMediumUsed.Text.ValidateString(this);
+            var mediumUsed = ddlMediumUsed.SelectedItem.ToString().ValidateString(this);
             var lotProcurement = txtLotProcurement.Text.ValidateString(this);
             var comparativeEstimate = txtComparativeEstimate.Text.ValidateString(this).ConvertStringTo<decimal>();
             var actualContractValue = txtActualContractValue.Text.ValidateString(this).ConvertStringTo<decimal>();
             var procurementType = ddlProcurementType.SelectedValue.ValidateString(this).ConvertStringTo<int>();
-            var recommendedSupplier = txtRecommendedSupplier.Text.ValidateString(this);
+            var recommendedSupplier = ddlRecommendedSupplier.SelectedValue.ValidateString(this).ConvertStringTo<int>();
             var fitAndReadyDate = txtFitAndReadyDate.Text.ValidateString(this).StringToDate(this);
             var publicationDate = txtPublicationDate.Text.ValidateString(this).StringToDate(this);
             var dateTenderClosed = txtDateTenderClosed.Text.ValidateString(this).StringToDate(this);
@@ -83,7 +85,7 @@ namespace MyProcurementApp.UserSection
                 ComparativeEstimate = comparativeEstimate,
                 ActualContractValue = actualContractValue,
                 ProcurementTypeId = procurementType,
-                //RecommendedSupplier = recommendedSupplier,
+                RecommendedSupplierID = recommendedSupplier,
                 FitAndReadyDate = fitAndReadyDate,
                 PublicationDate = publicationDate,
                 DateTenderClosed = dateTenderClosed,
@@ -97,7 +99,6 @@ namespace MyProcurementApp.UserSection
                 DateContractApproved = contractDateApproval,
                 Status = "Pending Approval",
                 Comments = comments,
-                
             };
 
             var procurementMade = await procurementDB.CreateProcurement("insertProcurementTracking", procurement);

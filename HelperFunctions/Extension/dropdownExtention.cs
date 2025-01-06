@@ -9,13 +9,14 @@ namespace HelperFunctions.Extension
 {
     public static class dropdownExtention
     {
-        public static void BindDropDownData<T>(this DropDownList dropDown, string TextField, string ValueFeild, string messagae, List<T> dataSource) where T : class
+        public static void BindDropDownData<T>(this DropDownList dropDown, string TextField, string ValueFeild, string messagae, List<T> dataSource, string tooltip = null) where T : class
         {
             dropDown.DataSource = dataSource;
             dropDown.DataTextField = TextField;
             dropDown.DataValueField = ValueFeild;
             dropDown.DataBind();
             dropDown.Items.Insert(0, new ListItem(messagae));
+            dropDown.ToolTip = tooltip;
         }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="DatabaseCode\ProcurementDB.cs" />
     <Compile Include="DatabaseCode\ProcurementTypeDB.cs" />
     <Compile Include="DatabaseCode\RoleDB.cs" />
+    <Compile Include="DatabaseCode\SupplierDB.cs" />
     <Compile Include="DatabaseCode\UserDB.cs" />
     <Compile Include="DBPageUtil\PageUtil.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -60,11 +61,13 @@
     <Compile Include="Model\ProcurementModel.cs" />
     <Compile Include="Model\ProcurementTypeModel.cs" />
     <Compile Include="Model\RoleModel.cs" />
+    <Compile Include="Model\SupplierModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceInterface\ICostCenter.cs" />
     <Compile Include="ServiceInterface\IProcurement.cs" />
     <Compile Include="ServiceInterface\IRole.cs" />
+    <Compile Include="ServiceInterface\ISupplier.cs" />
     <Compile Include="ServiceInterface\IUserDB.cs" />
     <Compile Include="ServiceInterface\IProcurementType.cs" />
   </ItemGroup>

@@ -51,13 +51,13 @@ namespace MyProcurementApp.UserSection
         protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
-        /// txtMediumUsed control.
+        /// ddlMediumUsed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMediumUsed;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMediumUsed;
 
         /// <summary>
         /// txtLotProcurement control.
@@ -96,13 +96,13 @@ namespace MyProcurementApp.UserSection
         protected global::System.Web.UI.WebControls.DropDownList ddlProcurementType;
 
         /// <summary>
-        /// txtRecommendedSupplier control.
+        /// ddlRecommendedSupplier control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRecommendedSupplier;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRecommendedSupplier;
 
         /// <summary>
         /// txtFitAndReadyDate control.

@@ -20,6 +20,7 @@ namespace DatabaseCodeBase.DBPageUtil
         protected RoleDB roleDB;
         protected ProcurementTypeDB procurementTypeDB;
         protected CostCenterDB costCenterDB;
+        protected SupplierDB supplierDB;
 
         // pdf info container
         protected ProcurementModel Aprocurement {  get; set; } = new ProcurementModel();
@@ -30,6 +31,7 @@ namespace DatabaseCodeBase.DBPageUtil
         protected List<RoleModel> RoleList { get; set; } = new List<RoleModel>();
         protected List<ProcurementModel> ProcurementList { get; set; } = new List<ProcurementModel>();
         protected List<CostCenterModel> CostCenterList { get; set; } = new List<CostCenterModel>();
+        protected List<SupplierModel> SupplierList { get; set; } = new List<SupplierModel>();
 
         // dependency Initialization function
         protected virtual async Task InitializeDependecy()
