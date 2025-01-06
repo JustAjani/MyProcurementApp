@@ -68,7 +68,10 @@
     <form id="form1" runat="server">
         <div class="container-fluid procurement-container">
             <h2 class="procurement-header">Procurement Management</h2>
-            
+            <div class="mb-3"> <label for="txtSearchLot" class="form-label">Search by Lot Procurement</label>
+                <asp:TextBox ID="txtSearchLot" runat="server" CssClass="form-control" />
+                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary mt-2" OnClick="btnSearch_Click" /> 
+            </div>
             <asp:GridView ID="gvProcurements" runat="server" 
                 CssClass="table table-hover" 
                 AutoGenerateColumns="false"
@@ -189,10 +192,16 @@
 
                     <asp:TemplateField HeaderText="Status">
                         <ItemTemplate>
-                             <asp:TextBox ID="txtStatus" runat="server" 
-                                CssClass="form-control"
+                             <asp:label ID="txtStatus" runat="server" 
+                                CssClass="text-label"
                                 Text='<%# Eval("Status") %>' >
-                            </asp:TextBox>
+                            </asp:label>
+                            <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control">
+                                <asp:ListItem Text="Select Status" Value="" />
+                                <asp:ListItem Text="Pending" Value="Pending" />
+                                <asp:ListItem Text="Approved" Value="Approved" />
+                                <asp:ListItem Text="Rejected" Value="Rejected" />
+                            </asp:DropDownList>
                         </ItemTemplate>
                     </asp:TemplateField>
 

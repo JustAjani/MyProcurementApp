@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DatabaseCodeBase.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace DatabaseCodeBase.ServiceInterface
         Task<List<T>>ReadProcurement(string storedProcedure);
         Task<List<T>> ReadByProcurementID(string storedProcedure , int iD, string selectedfield);
         Task<string> DeleteProcurement(string storedProcedure, T procurement);
+        Task<List<T>> FilterProcurementByLot(string storedProcedure, string lotProcurement);
     }
 }

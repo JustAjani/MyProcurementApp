@@ -189,6 +189,11 @@
         <div class="container-fluid">
             <div class="admin-container">
                 <h1 class="admin-header">Procurement Records</h1>
+                <div class="mb-3"> 
+                    <label for="txtSearchLot" class="form-label">Search by Lot Procurement</label> 
+                    <asp:TextBox ID="txtSearchLot" runat="server" CssClass="form-control" /> 
+                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary mt-2" OnClick="btnSearch_Click" />
+                </div>
                 <div class="table-container">
                     <asp:GridView ID="gvProcurements" runat="server" 
                         CssClass="table table-hover" 

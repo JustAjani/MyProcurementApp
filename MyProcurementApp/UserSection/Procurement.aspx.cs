@@ -16,5 +16,15 @@ namespace MyProcurementApp
                 lblUserName.Text = Session["TransferUser"].ToString();
             }
         }
+
+        protected void btnCreateRequest_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CreateProcurement.aspx");
+        }
+
+        protected void btnViewReports_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("DisplayProcurement.aspx");
+        }
     }
 }

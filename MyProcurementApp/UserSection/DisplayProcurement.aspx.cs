@@ -40,6 +40,18 @@ namespace MyProcurementApp.UserSection
             await Page_Load(this,e);
         }
 
+        protected async void btnSearch_Click(object sender, EventArgs e)
+        {
+            var searchWord = txtSearchLot.Text.ValidateString(this);
+            var searedDated = await procurementDB.FilterProcurementByLot("filterProcurementByLot", searchWord);
+            gvProcurements.BindGridData<ProcurementModel>(searedDated);
+            gvProcurements.BindDropDownFromGridView<ProcurementTypeModel>("ddlType", "Type", "ID", "[Select Procurment Type]", ProcurementTypeList);
+            gvProcurements.BindDropDownFromGridView<UserModel>("ddlOfficer", "Name", "UserId", "[Select Officer]", UserList);
+            gvProcurements.BindDropDownFromGridView<SupplierModel>("ddlSupplier", "SupplierName", "SupplierId", "[Select Supplier]", SupplierList);
+            gvProcurements.BindDropDownFromGridView<CostCenterModel>("ddlCostCentre", "CostCenterName", "CostCenterId", "[Select CostCenrer]", CostCenterList);
+
+        }
+
         protected void gvProcurements_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -125,6 +137,7 @@ namespace MyProcurementApp.UserSection
                 (TextBox publicationDateTB, _) = sender.FindUIComponent<TextBox, Button>("txtPublicationDate");
                 (TextBox contractValueTB, _) = sender.FindUIComponent<TextBox, Button>("txtContractValue");
                 (DropDownList supplierDD, _) = sender.FindUIComponent<DropDownList, Button>("ddlSupplier");
+                (DropDownList status, _) = sender.FindUIComponent<DropDownList,Button>("ddlStatus");
 
                 var editedProcurement = new ProcurementModel()
                 {
@@ -138,7 +151,8 @@ namespace MyProcurementApp.UserSection
                     DateOfRequest = requestDateTB.Text.ValidateString(this).StringToDate(this),
                     PublicationDate = publicationDateTB.Text.ValidateString(this).StringToDate(this),
                     ActualContractValue = contractValueTB.Text.ValidateString(this).Replace("$", "").ConvertStringTo<decimal>(),
-                    RecommendedSupplierID = supplierDD.SelectedValue.ValidateString(this).ConvertStringTo<int>()
+                    RecommendedSupplierID = supplierDD.SelectedValue.ValidateString(this).ConvertStringTo<int>(),
+                    Status = status.SelectedItem.Text.ValidateString(this)
                 };
 
                 string isComplete = await procurementDB.UpdateProcurement("updateProcurementTrackingById", editedProcurement);

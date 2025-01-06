@@ -69,6 +69,11 @@ namespace MyProcurementApp.AdminSection
             }
         }
 
-
+        protected async void btnSearch_Click(object sender, EventArgs e)
+        {
+            var searchWord = txtSearchLot.Text.ValidateString(this);
+            var searedDated = await procurementDB.FilterProcurementByLot("filterProcurementByLot", searchWord);
+            gvProcurements.BindGridData<ProcurementModel>(searedDated);
+        }
     }
 }

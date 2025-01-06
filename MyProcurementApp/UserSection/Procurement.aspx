@@ -16,12 +16,10 @@
             --secondary-color: #2ecc71;
             --background-color: #f4f6f7;
         }
-
         body {
             background-color: var(--background-color);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         .dashboard-container {
             background-color: white;
             border-radius: 12px;
@@ -29,20 +27,17 @@
             padding: 30px;
             margin-top: 50px;
         }
-
         .welcome-header {
             color: var(--primary-color);
             margin-bottom: 25px;
             text-align: center;
         }
-
         .quick-actions {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-top: 30px;
         }
-
         .quick-action-card {
             text-align: center;
             padding: 20px;
@@ -51,16 +46,27 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             width: 200px;
         }
-
         .quick-action-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-
         .quick-action-icon {
             font-size: 2.5rem;
             color: var(--primary-color);
             margin-bottom: 15px;
+        }
+        .custom-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .custom-button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
@@ -71,29 +77,25 @@
                 <h1 class="welcome-header">
                     Welcome, <asp:Label ID="lblUserName" runat="server" Text="User"></asp:Label>!
                 </h1>
-
                 <div class="quick-actions">
                     <div class="quick-action-card">
                         <div class="quick-action-icon">📋</div>
                         <h4>Create Request</h4>
-                        <a href="CreateProcurement.aspx">Start a new procurement request</a>
+                        <p>Start a new procurement request</p>
+                        <asp:Button ID="btnCreateRequest" runat="server" Text="Create Request" 
+                                  CssClass="custom-button" OnClick="btnCreateRequest_Click" />
                     </div>
                     <div class="quick-action-card">
                         <div class="quick-action-icon">📊</div>
                         <h4>View Reports</h4>
                         <p>Check procurement analytics</p>
-                         <a href="DisplayProcurement.aspx">Check procurement analytics</a>
-                    </div>
-                    <div class="quick-action-card">
-                        <div class="quick-action-icon">🤝</div>
-                        <h4>Vendor Management</h4>
-                        <p>Manage your vendor list</p>
+                        <asp:Button ID="btnViewReports" runat="server" Text="View Reports" 
+                                  CssClass="custom-button" OnClick="btnViewReports_Click" />
                     </div>
                 </div>
             </div>
         </div>
     </form>
-
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
