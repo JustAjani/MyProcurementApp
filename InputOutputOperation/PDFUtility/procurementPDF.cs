@@ -89,9 +89,9 @@ namespace InputOutputOperation.PDFUtility
 
             // Add all fields
             AddDataRow(table, "Procurement ID", model.ProcurementTrackingId.ToString(), dataFont);
-            AddDataRow(table, "Procurement Officer ID", model.ProcurementOfficer.ToString(), dataFont);
-            AddDataRow(table, "User ID", model.UserId.ToString(), dataFont);
-            //AddDataRow(table, "Cost Centre", model.CostCentreId, dataFont);
+            AddDataRow(table, "Procurement Officer ID", model.OfficerName, dataFont);
+            AddDataRow(table, "User ID", model.UserName, dataFont);
+            AddDataRow(table, "Cost Centre", model.CCName, dataFont);
             AddDataRow(table, "Date of Request", model.DateOfRequest.ToShortDateString(), dataFont);
             AddDataRow(table, "Medium Used to Send Request", model.MediumUsedToSendRequest, dataFont);
             AddDataRow(table, "Description", model.Description, dataFont);
@@ -111,7 +111,7 @@ namespace InputOutputOperation.PDFUtility
             AddDataRow(table, "Date Contract Received from Cost Centre", model.DateContractReceivedFromCostCentre.ToShortDateString(), dataFont);
             AddDataRow(table, "Date Contract Submitted to Legal", model.DateContractSubmittedToLegal.ToShortDateString(), dataFont);
             AddDataRow(table, "Date Contract Approved", model.DateContractApproved.ToShortDateString(), dataFont);
-            //AddDataRow(table, "Recommended Supplier", model.RecommendedSupplierID, dataFont);
+            AddDataRow(table, "Recommended Supplier", model.SupplierName, dataFont);
             AddDataRow(table, "Actual Contract Value", model.ActualContractValue.ToString("C"), dataFont);
             AddDataRow(table, "External Approval", model.ExternalApproval, dataFont);
             AddDataRow(table, "Date Sent to Purchasing Unit", model.DateSentToPurchasingUnit.ToShortDateString(), dataFont);

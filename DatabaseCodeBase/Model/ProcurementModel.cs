@@ -10,9 +10,12 @@ namespace DatabaseCodeBase.Model
     {
         public int ProcurementTrackingId { get; set; }
         public int ProcurementOfficer { get; set; }
+        
+        public string OfficerName {  get; set; }
         public int UserId { get; set; }
+        public string UserName { get; set; }
         public int CostCentreId { get; set; }
-        public string CostCentre { get; set; }
+        public string CCName { get; set; }
         public DateTime DateOfRequest { get; set; }
         public string MediumUsedToSendRequest { get; set; }
         public string Description { get; set; }
@@ -33,6 +36,7 @@ namespace DatabaseCodeBase.Model
         public DateTime DateContractSubmittedToLegal { get; set; }
         public DateTime DateContractApproved { get; set; }
         public int RecommendedSupplierID { get; set; }
+        public string SupplierName {  get; set; }
         public decimal ActualContractValue { get; set; }
         public string ExternalApproval { get; set; }
         public DateTime DateSentToPurchasingUnit { get; set; }

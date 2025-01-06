@@ -79,6 +79,7 @@
                     <asp:TemplateField HeaderText="Officer">
                         <ItemTemplate>
                             <asp:Label ID="lblOfficer" runat="server" CssClass="text-label"></asp:Label>
+                            <asp:Label ID="lblUser" runat="server" CssClass="text-label" Visible="false"></asp:Label>
                             <asp:DropDownList ID="ddlOfficer" runat="server" 
                                 CssClass="form-select"
                                 DataValueField="ProcurementOfficer"

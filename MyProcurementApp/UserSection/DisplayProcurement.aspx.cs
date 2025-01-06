@@ -19,7 +19,7 @@ namespace MyProcurementApp.UserSection
     public partial class DisplayProcurement : PageUtil
     {
         int userID;
-        string officer, type, costCenter, supplier;
+        string officer, type, costCenterName, supplier, userName;
         protected async Task Page_Load(object sender, EventArgs e)
         {
             userID = Session["TransferID"].ToString().ConvertStringTo<int>();
@@ -67,8 +67,8 @@ namespace MyProcurementApp.UserSection
                 var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
                 if (procurement != null)
                 {
-                    costCenter = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
-                    costCenterLabel.Text = costCenter;
+                    costCenterName = CostCenterList.FirstOrDefault(c => c.CostCenterId == procurement.CostCentreId)?.CostCenterName ?? "N/A";
+                    costCenterLabel.Text = costCenterName;
                 }
             });
 
@@ -81,6 +81,17 @@ namespace MyProcurementApp.UserSection
                     supplierLabel.Text = supplier;
                 }
             });
+
+            gvProcurements.FindDataWithGrid<Label>("lblUser", userLabel =>
+            {
+                var procurement = ProcurementList.FirstOrDefault(u => u.UserId == userID);
+                if (procurement != null)
+                {
+                    userName = UserList.FirstOrDefault(u => u.UserId == procurement.UserId)?.Name ?? "N/A";
+                    userLabel.Text = userName;
+                }
+            });
+
         }
 
 
@@ -107,6 +118,10 @@ namespace MyProcurementApp.UserSection
                     var procurementID = Convert.ToInt32(e.CommandArgument);
                     var pList = await procurementDB.ReadByProcurementID("selectProcurementTrackingById", procurementID, "@ProcurementTrackingId");
                     Aprocurement = pList.FirstOrDefault();
+                    Aprocurement.CCName = costCenterName;
+                    Aprocurement.OfficerName = officer;
+                    Aprocurement.SupplierName = supplier;
+                    Aprocurement.UserName = userName;
                     var pDF = new ProcurementPDF();
                     await pDF.CreatePDF(Aprocurement, this);
                 }
